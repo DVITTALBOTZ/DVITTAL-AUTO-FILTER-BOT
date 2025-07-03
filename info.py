@@ -33,7 +33,7 @@ NOR_IMG = environ.get("NOR_IMG", "https://graph.org/file/e20b5fdaf217252964202.j
 MELCOW_VID = environ.get("MELCOW_VID", "https://envs.sh/Fex.mp4")
 SPELL_IMG = environ.get("SPELL_IMG", "https://graph.org/file/13702ae26fb05df52667c.jpg")
 SUBSCRIPTION = (environ.get('SUBSCRIPTION', 'https://graph.org/file/242b7f1b52743938d81f1.jpg'))
-FSUB_PICS = (environ.get('FSUB_PICS', 'https://graph.org/file/7478ff3eac37f4329c3d8.jpg https://graph.org/file/56b5deb73f3b132e2bb73.jpg')).split()  # Fsub pic
+FSUB_PICS = (environ.get('FSUB_PICS', 'https://graph.org/file/7478ff3eac37f4329c3d8.jpg')).split()  # Fsub pic
 
 # ============================
 # Admin, Channels & Users Configuration
@@ -58,7 +58,7 @@ AUTH_CHANNELS = [int(channels_id) for channels_id in environ.get('AUTH_CHANNELS'
 # ============================
 # Payment Configuration
 # ============================
-QR_CODE = environ.get('QR_CODE', 'https://graph.org/file/e419f801841c2ee3db0fc.jpg')
+QR_CODE = environ.get('QR_CODE', 'https://graph.org/file/0ee1fc6eb9c5a856dfde3-f75a7c9f1091bf0ad5.jpg')
 OWNER_UPI_ID = environ.get('OWNER_UPI_ID', 'ɴᴏ ᴀᴠᴀɪʟᴀʙʟᴇ ʀɪɢʜᴛ ɴᴏᴡ')
 
 STAR_PREMIUM_PLANS = {
@@ -72,13 +72,13 @@ STAR_PREMIUM_PLANS = {
 # ============================
 # MongoDB Configuration
 # ============================
-DATABASE_URI = environ.get('DATABASE_URI', "")
+DATABASE_URI = environ.get('DATABASE_URI', "mongodb+srv://loheda1869:biui1nVXUtJhj2UJ@cluster0.dax5m4o.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0")
 DATABASE_NAME = environ.get('DATABASE_NAME', "cluster")
 COLLECTION_NAME = environ.get('COLLECTION_NAME', 'dreamcinezone_files')
 
 # If MULTIPLE_DB Is True Then Fill DATABASE_URI2 Value Else You Will Get Error.
-MULTIPLE_DB = is_enabled(os.environ.get('MULTIPLE_DB', "False"), False) # Type True For Turn On MULTIPLE DB FUNTION 
-DATABASE_URI2 = environ.get('DATABASE_URI2', "")
+MULTIPLE_DB = is_enabled(os.environ.get('MULTIPLE_DB', "True"), False) # Type True For Turn On MULTIPLE DB FUNTION 
+DATABASE_URI2 = environ.get('DATABASE_URI2', "mongodb+srv://jigam96466:Ozx7j56mQjeEdVT5@cluster0.yiwja6g.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0")
 
 # ============================
 # Movie Notification & Update Settings
