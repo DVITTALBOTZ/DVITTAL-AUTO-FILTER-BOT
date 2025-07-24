@@ -127,9 +127,9 @@ UPDATE_CHNL_LNK = environ.get('UPDATE_CHNL_LNK', 'https://t.me/DragonMax_Officia
 # ============================
 # User Configuration
 # ============================
-auth_users = [int(user) if id_pattern.search(user) else user for user in environ.get('AUTH_USERS', '').split()]
+auth_users = [int(user) if id_pattern.search(user) else user for user in environ.get('AUTH_USERS', '-1002723147053').split()]
 AUTH_USERS = (auth_users + ADMINS) if auth_users else []
-PREMIUM_USER = [int(user) if id_pattern.search(user) else user for user in environ.get('PREMIUM_USER', '').split()]
+PREMIUM_USER = [int(user) if id_pattern.search(user) else user for user in environ.get('PREMIUM_USER', '-1002540580392').split()]
 
 # ============================
 # Miscellaneous Configuration
