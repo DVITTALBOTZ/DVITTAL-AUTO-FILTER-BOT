@@ -169,14 +169,13 @@ class Database:
     async def dreamx_reset_settings(self):
         try:
             result = await self.grp.update_many(
-                {'settings': {'$exists': True}},
-                {'$unset': {'settings': ''}}
+                {'settings': {'$exists': True}}, 
+                {'$unset': {'settings': ""}}    
             )
-            modified_count = result.modified_count
-            return modified_count
+            return result.modified_count
         except Exception as e:
-            print(f"Error deleting settings for all groups: {str(e)}")
-            raise
+            print(f"[ERROR] Failed to reset group settings: {e}")
+            raise  
 
     async def disable_chat(self, chat, reason="No Reason"):
         chat_status=dict(
@@ -353,6 +352,16 @@ class Database:
         user_data = {"id": user_id, "expiry_time": expiry_time, "has_free_trial": True}
         await self.users.update_one({"id": user_id}, {"$set": user_data}, upsert=True)
 
+    async def reset_free_trial(self, user_id=None):
+        if user_id is None:
+            update_data = {"$set": {"has_free_trial": False}}
+            result = await self.users.update_many({}, update_data)  
+            return result.modified_count
+        else:
+            update_data = {"$set": {"has_free_trial": False}}
+            result = await self.users.update_one({"id": user_id}, update_data)
+            return 1 if result.modified_count > 0 else 0  
+        
     async def all_premium_users(self):
         count = await self.users.count_documents({
         "expiry_time": {"$gt": datetime.datetime.now()}
@@ -403,6 +412,8 @@ class Database:
     async def update_movie_update_status(self, bot_id, enable):
         await self.update_bot_setting(bot_id, 'MOVIE_UPDATE_NOTIFICATION', enable)
 
+    async def reset_group_settings(self, id):
+        await self.grp.update_one({"id": int(id)}, {"$set": {"settings": self.default}})   
         
 db = Database(DATABASE_URI, DATABASE_NAME)    
 db2 = Database(DATABASE_URI2, DATABASE_NAME)

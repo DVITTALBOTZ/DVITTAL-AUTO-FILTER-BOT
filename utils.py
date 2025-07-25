@@ -76,6 +76,7 @@ async def is_subscribed(bot, query, fsub_channels):
             pass
     return btn
 
+
 async def is_check_admin(bot, chat_id, user_id):
     try:
         member = await bot.get_chat_member(chat_id, user_id)
@@ -294,7 +295,12 @@ async def save_group_settings(group_id, key, value):
     current.update({key: value})
     temp.SETTINGS.update({group_id: current})
     await db.update_settings(group_id, current)
-    
+
+async def save_default_settings(id):
+    await db.reset_group_settings(id)
+    current = await db.get_settings(id)
+    temp.SETTINGS.update({id: current})
+
 def clean_filename(file_name):
     prefixes = ('[', '@', 'www.')
     unwanted = {word.lower() for word in BAD_WORDS}
