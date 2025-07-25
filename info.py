@@ -27,11 +27,11 @@ BOT_TOKEN = environ.get('BOT_TOKEN', "")    # Bot token from @BotFather
 # ============================
 CACHE_TIME = int(environ.get('CACHE_TIME', 300))    # Cache time in seconds (default: 5 minutes)
 USE_CAPTION_FILTER = bool(environ.get('USE_CAPTION_FILTER', True))  # Use caption filter for search results (default: True)
-INDEX_CAPTION = bool(environ.get('<b><a href="https://telegram.me/Requiest_your_faw">{file_name}</a></b>', True)) # Save caption db when idexing make it False if you dont use USE_CAPTION_FILTER for search results (default: True)
+INDEX_CAPTION = bool(environ.get('SAVE_CAPTION">{file_name}</a></b>', True)) # Save caption db when idexing make it False if you dont use USE_CAPTION_FILTER for search results (default: True)
 #Making it false will not save caption in db SO you can save some storage space
 
 
-PICS = (environ.get('PICS', 'https://graph.org/file/56b5deb73f3b132e2bb73.jpg https://graph.org/file/5303692652d91d52180c2.jpg https://graph.org/file/425b6f46efc7c6d64105f.jpg https://graph.org/file/876867e761c6c7a29855b.jpg')).split()  # Sample pic
+PICS = (environ.get('PICS', 'https://graph.org/file/220408f1cc31a9dc2038c-c5b5fab23d5ab48854.jpg https://graph.org/file/af4430a9ef876b1ac3de0-8f3466f6fd838d3b1a.jpg https://graph.org/file/a0b370af8b2126362228d-2d9fbc712abd32d3a0.jpg https://graph.org/file/ae177d1c39a4c7afba7ec-a5b2c2f69477c9b0ac.jpg')).split()  # Sample pic
 NOR_IMG = environ.get("NOR_IMG", "https://graph.org/file/e20b5fdaf217252964202.jpg")
 MELCOW_PHOTO = environ.get("MELCOW_PHOTO", "https://graph.org/file/56b5deb73f3b132e2bb73.jpg")
 SPELL_IMG = environ.get("SPELL_IMG", "https://graph.org/file/13702ae26fb05df52667c.jpg")
