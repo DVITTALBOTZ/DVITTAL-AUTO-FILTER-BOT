@@ -216,7 +216,7 @@ Nᴀᴍᴇ : {}
 
 Mᴇꜱꜱᴀɢᴇ : <b>{}</b>"""
     
-    CAPTION = """<b><a href="https://telegram.me/Requiest_your_faw">{file_name}</a></b>">{file_name}</a></b>\n\n<b>⚜️ Powered By : <a href="https://t.me/+Umd9miLrCwg4N2Rl">[ sᴇᴄᴜʀᴇ 🔐 ]</a></b>"""
+    CAPTION = """<b><a href="https://telegram.me/Requiest_your_faw">{file_name}</a></b>\n\n<b>⚜️ Powered By : <a href="https://t.me/+Umd9miLrCwg4N2Rl">[ sᴇᴄᴜʀᴇ 🔐 ]</a></b>"""
 
     
     MOVIE_UPDATE_NOTIFY_TXT = """
