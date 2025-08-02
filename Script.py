@@ -5,7 +5,7 @@ class script(object):
 ✦ ɪ ᴀᴍ ʙᴇꜱᴛ ᴍᴏᴠɪᴇꜱ/ꜱᴇʀɪᴇꜱ ʙᴏᴛ
 ✦ ɪ ᴀᴍ ᴜꜱɪɴɢ ᴀɪ ꜱᴇᴀʀᴄʜ ᴇɴɢɪɴᴇ !!</b>
 
-<a href='https://t.me/MovixNest'>☯︎ Mᴀɪɴᴛᴀɪɴᴇᴅ ʙʏ MᴏᴠɪxNᴇsᴛ Dᴇᴠ</a>"""
+<b><a href='https://t.me/MovixNest'>𖤍 Mᴀɪɴᴛᴀɪɴᴇᴅ ʙʏ MᴏᴠɪxNᴇsᴛ Dᴇᴠ</a></b>"""
 
     GSTART_TXT = """<b>🚩 ᴊᴀɪ ꜱʜʀɪ ʀᴀᴍ 🚩</b>
 
