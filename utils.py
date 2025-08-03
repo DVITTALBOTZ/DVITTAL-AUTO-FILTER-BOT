@@ -703,6 +703,30 @@ async def get_seconds(time_string):
         return 0
     
 
+def clean_search_text(search_raw: str) -> str:
+    search_lower = search_raw.lower()
+    phrases = re.split(r'\s{2,}', search_lower.strip())
+    lang_pattern = r'\b(hin(di)?|eng(lish)?|mal(ayalam)?|tam(il)?|tel(ugu)?|kan(nada)?|ben(gali)?|mar(athi)?|urdu|guj(arat)?|punj(abi)?)\b'
+    season_pattern = r's(eason)?\s*0*\d+'
+    quality_pattern = r'\b(360p|480p|720p|1080p|1440p|2160p|4k)\b'  
+    cleaned_phrases = []
+    for phrase in phrases:
+        phrase = re.sub(season_pattern, '', phrase, flags=re.IGNORECASE)
+        phrase = re.sub(lang_pattern, '', phrase, flags=re.IGNORECASE)
+        phrase = re.sub(quality_pattern, '', phrase, flags=re.IGNORECASE)
+        phrase = re.sub(r'\s+', ' ', phrase).strip()
+        if phrase:
+            cleaned_phrases.append(phrase)
+    unique_phrases = []
+    seen = set()
+    for cp in cleaned_phrases:
+        if cp not in seen:
+            unique_phrases.append(cp)
+            seen.add(cp)
+    if unique_phrases:
+        return unique_phrases[0].title()
+    else:
+        return ""
 
 async def get_cap(settings, remaining_seconds, files, query, total_results, search, offset=0):
     try:
