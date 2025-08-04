@@ -5,7 +5,7 @@ class script(object):
 ✦ ɪ ᴀᴍ ʙᴇꜱᴛ ᴍᴏᴠɪᴇꜱ/ꜱᴇʀɪᴇꜱ ʙᴏᴛ
 ✦ ɪ ᴀᴍ ᴜꜱɪɴɢ ᴀɪ ꜱᴇᴀʀᴄʜ ᴇɴɢɪɴᴇ !!</b>
 
-<b><a href='https://t.me/MovixNest'>𖤍 Mᴀɪɴᴛᴀɪɴᴇᴅ ʙʏ MᴏᴠɪxNᴇsᴛ</a></b>"""
+<b><a href='https://t.me/FilmyflixHD'>𖤍 Mᴀɪɴᴛᴀɪɴᴇᴅ ʙʏ FilmyflixHD</a></b>"""
 
     GSTART_TXT = """<b>🚩 ᴊᴀɪ ꜱʜʀɪ ʀᴀᴍ 🚩</b>
 
@@ -216,7 +216,7 @@ Nᴀᴍᴇ : {}
 
 Mᴇꜱꜱᴀɢᴇ : <b>{}</b>"""
     
-    CAPTION = """<b><a href="https://t.me/MovixNest">{file_name}</a></b>\n\n<b>⚜️ Powered By : <a href="https://t.me/MovixNest">[ MovixNest ]</a></b>"""
+    CAPTION = """<b><a href="https://t.me/FilmyflixHD">{file_name}</a></b>\n\n<b>⚜️ Powered By : <a href="https://t.me/FilmyflixHD">[ FilmyflixHD ]</a></b>"""
 
     
     MOVIE_UPDATE_NOTIFY_TXT = """
@@ -278,7 +278,7 @@ Mᴇꜱꜱᴀɢᴇ : <b>{}</b>"""
 ◉ 60 ᴅᴀʏꜱ - 79 ₹  / 79 ꜱᴛᴀʀ
 
 •─────•─────────•─────•
-🏷️ <a href='https://t.me/MovixNest_ownerbot'>ꜱᴜʙꜱᴄʀɪᴘᴛɪᴏɴ ᴘʀᴏᴏꜰ</a>
+🏷️ <a href='https://t.me/FilmyflixHD_Supportbot'>ꜱᴜʙꜱᴄʀɪᴘᴛɪᴏɴ ᴘʀᴏᴏꜰ</a>
 
 ‼️ ᴍᴜꜱᴛ ꜱᴇɴᴅ ꜱᴄʀᴇᴇɴꜱʜᴏᴛ ᴀꜰᴛᴇʀ ᴘᴀʏᴍᴇɴᴛ.
 ‼️ ᴀꜰᴛᴇʀ ꜱᴇɴᴅɪɴɢ ꜱᴄʀᴇᴇɴꜱʜᴏᴛ ɢɪᴠᴇ ᴜꜱ ꜱᴏᴍᴇᴛɪᴍᴇꜱ ᴛᴏ ᴀᴅᴅ ʏᴏᴜ ɪɴ ᴘʀᴇᴍɪᴜᴍ ʟɪꜱᴛ."""
@@ -369,7 +369,7 @@ Mᴇꜱꜱᴀɢᴇ : <b>{}</b>"""
 ○ ᴍᴜʟᴛɪ-ᴘʟᴀʏᴇʀ sᴛʀᴇᴀᴍɪɴɢ ʟɪɴᴋs
 ○ ᴀᴅ-ғʀᴇᴇ ᴇxᴘᴇʀɪᴇɴᴄᴇ
 
-👨‍💻 ᴄᴏɴᴛᴀᴄᴛ ᴛʜᴇ <a href='https://t.me/MovixNest_ownerbot'>Owner</a> ᴛᴏ ɢᴇᴛ ʏᴏᴜʀ ᴛʀɪᴀʟ.
+👨‍💻 ᴄᴏɴᴛᴀᴄᴛ ᴛʜᴇ <a href='https://t.me/FilmyflixHD_Supportbot'>Owner</a> ᴛᴏ ɢᴇᴛ ʏᴏᴜʀ ᴛʀɪᴀʟ.
 
 ➛ ᴜꜱᴇ /plan ᴛᴏ ꜱᴇᴇ ᴀʟʟ ᴏᴜʀ ᴘʟᴀɴꜱ ᴀᴛ ᴏɴᴄᴇ.
 ➛ ᴄʜᴇᴄᴋ ʏᴏᴜʀ ᴀᴄᴛɪᴠᴇ ᴘʟᴀɴ ʙʏ ᴜꜱɪɴɢ : /myplan</b>"""
