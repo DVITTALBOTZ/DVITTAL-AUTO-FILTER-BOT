@@ -100,12 +100,12 @@ async def start(client, message):
         buttons = [[
                     InlineKeyboardButton('𑁍 ᴀᴅᴅ ᴍᴇ ᴛᴏ ʏᴏᴜʀ ɢʀᴏᴜᴘ 𑁍', url=f'http://telegram.me/{temp.U_NAME}?startgroup=true')
                 ],[
-                    InlineKeyboardButton('「 ✦ ᴏᴡɴᴇʀ ✦ 」', url='http://t.me/MovixNest_ownerbot')
+                    InlineKeyboardButton('「 ✦ ᴏᴡɴᴇʀ ✦ 」', url='http://t.me/FilmyflixHD_Supportbot')
                 ],[
                     InlineKeyboardButton('✎ᝰ.ʜᴇʟᴘ', callback_data='help'),
                     InlineKeyboardButton('ⓘ ᴀʙᴏᴜᴛ', callback_data='about')
                 ],[
-                    InlineKeyboardButton('〄 ᴄʜᴀɴɴᴇʟ 〄', url='http://t.me/MovixNest'),
+                    InlineKeyboardButton('〄 ᴄʜᴀɴɴᴇʟ 〄', url='https://t.me/FilmyflixHD'),
                     InlineKeyboardButton('〄 ɢʀᴏᴜᴘ 〄', url='https://t.me/+EjztZH1gX05jMGY1')
                 ],[
                    InlineKeyboardButton('✦ ᴛʀᴇɴᴅɪɴɢ ✦', callback_data="topsearch"),
