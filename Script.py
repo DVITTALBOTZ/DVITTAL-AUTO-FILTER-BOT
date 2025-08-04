@@ -5,13 +5,15 @@ class script(object):
 ✦ ɪ ᴀᴍ ʙᴇꜱᴛ ᴍᴏᴠɪᴇꜱ/ꜱᴇʀɪᴇꜱ ʙᴏᴛ
 ✦ ɪ ᴀᴍ ᴜꜱɪɴɢ ᴀɪ ꜱᴇᴀʀᴄʜ ᴇɴɢɪɴᴇ !!</b>
 
-<b><a href='https://t.me/FilmyflixHD'>𖤍 Mᴀɪɴᴛᴀɪɴᴇᴅ ʙʏ FilmyflixHD</a></b>"""
+<b><a href='https://t.me/FilmyflixHD'>𖤍 Mᴀɪɴᴛᴀɪɴᴇᴅ ʙʏ FilmyflixHD Dev</a></b>"""
 
-    GSTART_TXT = """<b>🚩 ᴊᴀɪ ꜱʜʀɪ ʀᴀᴍ 🚩</b>
+    GSTART_TXT = """<b>ʜᴇʏ {}, {}</b>
 
-<b>ʜᴇʏ {},</b>
+<b>✦ ᴍʏ ɴᴀᴍᴇ ɪꜱ  <a href=https://t.me/{}>{}</a>
+✦ ɪ ᴀᴍ ʙᴇꜱᴛ ᴍᴏᴠɪᴇꜱ/ꜱᴇʀɪᴇꜱ ʙᴏᴛ
+✦ ɪ ᴀᴍ ᴜꜱɪɴɢ ᴀɪ ꜱᴇᴀʀᴄʜ ᴇɴɢɪɴᴇ !!</b>
 
-<b>🤖 ɪ ᴀᴍ <a href=https://t.me/{}>{}</a>, ᴛʜᴇ ᴍᴏꜱᴛ ᴘᴏᴡᴇʀꜰᴜʟ ᴀᴜᴛᴏ ꜰɪʟᴛᴇʀ ʙᴏᴛ ᴡɪᴛʜ ᴘʀᴇᴍɪᴜᴍ ꜰᴇᴀᴛᴜʀᴇꜱ.</b>"""
+<b><a href='https://t.me/FilmyflixHD'>𖤍 Mᴀɪɴᴛᴀɪɴᴇᴅ ʙʏ FilmyflixHD Dev</a></b>"""
 
     
     HELP_TXT = """<b>
