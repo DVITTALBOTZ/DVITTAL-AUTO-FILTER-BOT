@@ -12,13 +12,13 @@ from Script import script
 from datetime import datetime
 from database.refer import referdb
 from database.config_db import mdb
+from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup, Message, ReplyKeyboardMarkup
 from pyrogram import Client, filters, enums
 from pyrogram.errors import FloodWait, ChatAdminRequired, UserNotParticipant
-from pyrogram.types import *
 from database.ia_filterdb import Media, Media2, get_file_details, unpack_new_file_id, get_bad_files
 from database.users_chats_db import db
 from info import *
-from utils import get_settings, save_group_settings, is_subscribed, is_req_subscribed, get_size, get_shortlink, is_check_admin, temp, get_readable_time, get_time, generate_settings_text, log_error, clean_filename,save_default_settings
+from utils import get_settings, save_group_settings, is_subscribed, is_req_subscribed, get_size, get_shortlink, is_check_admin, temp, get_readable_time, get_time, generate_settings_text, log_error, clean_filename
 
 
 
@@ -226,16 +226,16 @@ async def start(client, message):
     except Exception:
         pre, grp_id, file_id = "", 0, data
 
-   
-    if not await db.has_premium_access(message.from_user.id):
-        btn = []
+    if not await db.has_premium_access(message.from_user.id): 
         try:
+            btn = []
             chat = int(data.split("_", 2)[1])
-            settings = await get_settings(chat)
-            dreamxbotz_joined = settings.get("fsub", AUTH_CHANNELS) if settings else AUTH_CHANNELS
-            if dreamxbotz_joined :
-                btn += await is_subscribed(client, message.from_user.id, dreamxbotz_joined)
-            if AUTH_REQ_CHANNELS and settings.get("fsub", AUTH_CHANNELS) == AUTH_CHANNELS:
+            settings      = await get_settings(chat)
+            fsub_channels = list(dict.fromkeys((settings.get('fsub', []) if settings else [])+ AUTH_CHANNELS)) 
+
+            if fsub_channels:
+                btn += await is_subscribed(client, message.from_user.id, fsub_channels)
+            if AUTH_REQ_CHANNELS:
                 btn += await is_req_subscribed(client, message.from_user.id, AUTH_REQ_CHANNELS)
             if btn:
                 if len(message.command) > 1 and "_" in message.command[1]:
@@ -244,12 +244,12 @@ async def start(client, message):
                         InlineKeyboardButton("♻️ ᴛʀʏ ᴀɢᴀɪɴ ♻️", callback_data=f"checksub#{kk}#{file_id}")
                     ])
                     reply_markup = InlineKeyboardMarkup(btn)
+                photo = random.choice(FSUB_PICS) if FSUB_PICS else "https://graph.org/file/7478ff3eac37f4329c3d8.jpg"
                 caption = (
                     f"👋 ʜᴇʟʟᴏ {message.from_user.mention}\n\n"
                     "🛑 ʏᴏᴜ ᴍᴜsᴛ ᴊᴏɪɴ ᴛʜᴇ ʀᴇǫᴜɪʀᴇᴅ ᴄʜᴀɴɴᴇʟs ᴛᴏ ᴄᴏɴᴛɪɴᴜᴇ.\n"
                     "👉 ᴊᴏɪɴ ᴀʟʟ ᴛʜᴇ ʙᴇʟᴏᴡ ᴄʜᴀɴɴᴇʟs ᴀɴᴅ ᴛʀʏ ᴀɢᴀɪɴ."
                 )
-                photo = random.choice(FSUB_PICS) if FSUB_PICS else "https://graph.org/file/7478ff3eac37f4329c3d8.jpg"
                 await message.reply_photo(
                     photo=photo,
                     caption=caption,
@@ -257,6 +257,7 @@ async def start(client, message):
                     parse_mode=enums.ParseMode.HTML
                 )
                 return
+
         except Exception as e:
             await log_error(client, f"❗️ Force Sub Error:\n\n{repr(e)}")
             logger.error(f"❗️ Force Sub Error:\n\n{repr(e)}")
@@ -1352,25 +1353,6 @@ async def reset_all_settings(client, message):
             "<b>🚫 An error occurred while resetting group settings.\nPlease try again later.</b>",
             quote=True
         )
-
-@Client.on_message(filters.command("reset_group"))
-async def reset_group_command(client, message):
-    grp_id = message.chat.id
-    if message.chat.type not in [enums.ChatType.GROUP, enums.ChatType.SUPERGROUP]:
-        return await message.reply_text("<b>⚠️ ᴛʜɪꜱ ᴄᴏᴍᴍᴀɴᴅ ᴄᴀɴ ᴏɴʟʏ ʙᴇ ᴜꜱᴇᴅ ɪɴ ɢʀᴏᴜᴘꜱ</b>")
-    is_admin = await is_check_admin(client, grp_id, message.from_user.id)
-    if not is_admin:
-        return await message.reply_text("<b>🚫 ʏᴏᴜ ᴀʀᴇ ɴᴏᴛ ᴀɴ ᴀᴅᴍɪɴ ɪɴ ᴛʜɪꜱ ɢʀᴏᴜᴘ</b>")
-    sts = await message.reply("<b>♻️ ᴘʀᴏᴄᴇꜱꜱɪɴɢ ʀᴇꜱᴇᴛ...</b>")
-    await asyncio.sleep(1.2)
-    await sts.delete()
-    await save_default_settings(grp_id)
-    btn = [[InlineKeyboardButton("🚫 ᴄʟᴏꜱᴇ", callback_data="close_data")]]
-    reply_markup = InlineKeyboardMarkup(btn)
-    await message.reply_text(
-        "<b>✅ ꜱᴜᴄᴄᴇꜱꜱғᴜʟʟʏ ʀᴇꜱᴇᴛ ɢʀᴏᴜᴘ ꜱᴇᴛᴛɪɴɢꜱ</b>",
-        reply_markup=reply_markup
-    )
 
 @Client.on_message(filters.command("trial_reset"))
 async def reset_trial(client, message):

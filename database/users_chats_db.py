@@ -419,10 +419,7 @@ class Database:
 
     async def update_movie_update_status(self, bot_id, enable):
         await self.update_bot_setting(bot_id, 'MOVIE_UPDATE_NOTIFICATION', enable)
-
-    async def reset_group_settings(self, id):
-        await self.grp.update_one({"id": int(id)}, {"$set": {"settings": self.default}})   
-        
+     
 db = Database(DATABASE_URI, DATABASE_NAME)    
 db2 = Database(DATABASE_URI2, DATABASE_NAME)
 

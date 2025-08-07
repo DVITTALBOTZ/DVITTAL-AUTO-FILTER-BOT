@@ -3,10 +3,10 @@ import logging
 import asyncio
 from datetime import datetime
 from collections import defaultdict
-from plugins.Dreamxfutures.Imdbposter import get_movie_details, fetch_image
+from plugins.Dreamxfutures.Imdbposter import get_movie_detailsx, fetch_image, get_movie_details
 from database.users_chats_db import db
 from pyrogram import Client, filters, enums
-from info import CHANNELS, MOVIE_UPDATE_CHANNEL, LINK_PREVIEW, ABOVE_PREVIEW, BAD_WORDS
+from info import CHANNELS, MOVIE_UPDATE_CHANNEL, LINK_PREVIEW, ABOVE_PREVIEW, BAD_WORDS, LANDSCAPE_POSTER, TMDB_POSTER
 from Script import script
 from database.ia_filterdb import save_file
 from pyrogram.types import InlineKeyboardMarkup, InlineKeyboardButton
@@ -70,7 +70,7 @@ STANDARD_GENRES = {
 
 # Precompiled regex patterns
 CLEAN_PATTERN = re.compile(r'@[^ \n\r\t\.,:;!?()\[\]{}<>\\/"\'=_%]+|\bwww\.[^\s\]\)]+|\([\@^]+\)|\[[\@^]+\]')
-NORMALIZE_PATTERN = re.compile(r"[._\-]+|[()\[\]{}:;'–!,.?_]")
+NORMALIZE_PATTERN = re.compile(r"[._]+|[()\[\]{}:;'–!,.?_]")
 QUALITY_PATTERN = re.compile(
     r"\b(?:HDCam|HDTC|CamRip|TS|TC|TeleSync|DVDScr|DVDRip|PreDVD|"
     r"WEBRip|WEB-DL|TVRip|HDTV|WEB DL|WebDl|BluRay|BRRip|BDRip|"
@@ -78,13 +78,16 @@ QUALITY_PATTERN = re.compile(
     re.IGNORECASE
 )
 YEAR_PATTERN = re.compile(r"(?<![A-Za-z0-9])(?:19|20)\d{2}(?![A-Za-z0-9])")
-RANGE_REGEX = re.compile(r'\bS(\d{1,2})[^\w\n\r]*[\(\[]E(?:p(?:isode)?)?0*(\d{1,2})\s*(?:to|-)\s*E?0*(\d{1,2})[\)\]]', re.IGNORECASE)
+RANGE_REGEX = re.compile(r'\bS(\d{1,2})[^\w\n\r]*E(?:p(?:isode)?)?0*(\d{1,2})\s*(?:to|-)\s*(?:E(?:p(?:isode)?)?)?0*(\d{1,2})',re.IGNORECASE)
 SINGLE_REGEX = re.compile(r'\bS(\d{1,2})[^\w\n\r]*E(?:p(?:isode)?)?0*(\d{1,3})', re.IGNORECASE)
 NAMED_REGEX = re.compile(r'Season\s*0*(\d{1,2})[\s\-,:]*Ep(?:isode)?\s*0*(\d{1,3})', re.IGNORECASE)
+EP_ONLY_RANGE = re.compile(r'\b(?:EP|Episode)0*(\d{1,3})\s*-\s*0*(\d{1,3})\b',re.IGNORECASE)
+
 
 MEDIA_FILTER = filters.document | filters.video | filters.audio
 locks = defaultdict(asyncio.Lock)
 pending_updates = {}
+
 
 def clean_mentions_links(text: str) -> str:
     return CLEAN_PATTERN.sub("", text or "").strip()
@@ -107,6 +110,8 @@ def extract_ott_platform(text: str) -> str:
     return " | ".join(platforms) if platforms else "N/A"
 
 def extract_season_episode(filename: str) -> Tuple[Optional[int], Optional[str]]:
+    if m := EP_ONLY_RANGE.search(filename):
+        return 1, f"{int(m.group(1))}-{int(m.group(2))}"
     for pattern in (RANGE_REGEX, SINGLE_REGEX, NAMED_REGEX):
         if m := pattern.search(filename):
             season = int(m.group(1))
@@ -145,7 +150,7 @@ def extract_media_info(filename: str, caption: str):
     season, episode = extract_season_episode(filename)
     if season is not None:
         tag = "#SERIES"
-        if m := (RANGE_REGEX.search(filename) or SINGLE_REGEX.search(filename)):
+        if m := (RANGE_REGEX.search(filename) or SINGLE_REGEX.search(filename) or NAMED_REGEX.search(filename) or EP_ONLY_RANGE.search(filename)):
             match_str = m.group(0)
             start_idx = filename.lower().find(match_str.lower())
             end_idx = start_idx + len(match_str)
@@ -234,6 +239,8 @@ async def _process_with_lock(bot, filename, caption, media_info, base_name, proc
         db.movie_updates = db.db.movie_updates
 
     movie_doc = await db.movie_updates.find_one({"_id": base_name})
+    global error_tmdb
+    error_tmdb=False
     file_data = {
         "filename": filename,
         "processed": processed,
@@ -247,21 +254,28 @@ async def _process_with_lock(bot, filename, caption, media_info, base_name, proc
     }
 
     if not movie_doc:
-        details = await get_movie_details(base_name) or {}
+        if TMDB_POSTER:
+            details = await get_movie_detailsx(base_name)
+            if details.get("error"):
+                error_tmdb=True
+                logger.info("TMDB error switching to IMDB")
+                details = await get_movie_details(base_name) or {}
+        else:
+            details = await get_movie_details(base_name) or {}
+
         raw_genres = details.get("genres", "N/A")
         if isinstance(raw_genres, str):
             genre_list = [g.strip() for g in raw_genres.split(",")]
             genres = ", ".join(g for g in genre_list if g in STANDARD_GENRES) or "N/A"
         else:
             genres = ", ".join(g for g in raw_genres if g in STANDARD_GENRES) or "N/A"
-
         movie_doc = {
             "_id": base_name,
             "files": [file_data],
-            "poster_url": details.get("poster_url"),
+            "poster_url": details.get("backdrop_url") if LANDSCAPE_POSTER and TMDB_POSTER and not error_tmdb else details.get("poster_url"),
             "genres": genres,
             "rating": details.get("rating", "N/A"),
-            "imdb_url": details.get("url", ""),
+            "imdb_url": details.get("url", "")if not TMDB_POSTER else details.get("tmdb_url"),
             "year": media_info["year"] or details.get("year"),
             "tag": media_info["tag"],
             "ott_platform": media_info["ott_platform"],
@@ -311,7 +325,7 @@ async def send_movie_update(bot, base_name):
             ]])
 
             if movie_doc.get("poster_url") and not LINK_PREVIEW:
-                resized_poster = await fetch_image(movie_doc["poster_url"])
+                resized_poster = await fetch_image(movie_doc["poster_url"], size=(2560, 1440) if LANDSCAPE_POSTER and TMDB_POSTER and not error_tmdb else (853, 1280))
                 msg = await bot.send_photo(
                     chat_id=MOVIE_UPDATE_CHANNEL,
                     photo=resized_poster,

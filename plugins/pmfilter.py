@@ -1,4 +1,4 @@
-from utils import get_size, is_subscribed, is_req_subscribed, group_setting_buttons, get_poster, temp, get_settings, save_group_settings, get_cap, imdb, is_check_admin, extract_request_content, log_error, clean_filename, generate_season_variations
+from utils import get_size, is_subscribed, is_req_subscribed, group_setting_buttons, get_poster, temp, get_settings, save_group_settings, get_cap, imdb, is_check_admin, extract_request_content, log_error, clean_filename, generate_season_variations, clean_search_text
 import tracemalloc
 from fuzzywuzzy import process
 from dreamxbotz.util.file_properties import get_name, get_hash
@@ -295,7 +295,8 @@ async def next_page(bot, query):
             timedelta(hours=curr_time.hour, minutes=curr_time.minute, seconds=(
                 curr_time.second+(curr_time.microsecond/1000000)))
         remaining_seconds = "{:.2f}".format(time_difference.total_seconds())
-        cap = await get_cap(settings, remaining_seconds, files, query, total, search, offset+1)
+        dreamx_title = clean_search_text(search)
+        cap = await get_cap(settings, remaining_seconds, files, query, total, dreamx_title, offset+1)
         try:
             await query.message.edit_text(text=cap, reply_markup=InlineKeyboardMarkup(btn), disable_web_page_preview=True)
         except MessageNotModified:
@@ -337,8 +338,6 @@ async def advantage_spoll_choker(bot, query):
         await k.delete()
 
 # Qualities
-
-
 @Client.on_callback_query(filters.regex(r"^qualities#"))
 async def qualities_cb_handler(client: Client, query: CallbackQuery):
     try:
@@ -483,7 +482,8 @@ async def filter_qualities_cb_handler(client: Client, query: CallbackQuery):
             timedelta(hours=curr_time.hour, minutes=curr_time.minute, seconds=(
                 curr_time.second+(curr_time.microsecond/1000000)))
         remaining_seconds = "{:.2f}".format(time_difference.total_seconds())
-        cap = await get_cap(settings, remaining_seconds, files, query, total_results, search, offset=1)
+        dreamx_title = clean_search_text(search)
+        cap = await get_cap(settings, remaining_seconds, files, query, total_results, dreamx_title, offset=1)
         try:
             await query.message.edit_text(text=cap, reply_markup=InlineKeyboardMarkup(btn), disable_web_page_preview=True)
         except MessageNotModified:
@@ -637,7 +637,8 @@ async def filter_languages_cb_handler(client: Client, query: CallbackQuery):
             timedelta(hours=curr_time.hour, minutes=curr_time.minute, seconds=(
                 curr_time.second+(curr_time.microsecond/1000000)))
         remaining_seconds = "{:.2f}".format(time_difference.total_seconds())
-        cap = await get_cap(settings, remaining_seconds, files, query, total_results, search, offset=1)
+        dreamx_title = clean_search_text(search)
+        cap = await get_cap(settings, remaining_seconds, files, query, total_results, dreamx_title, offset=1)
         try:
             await query.message.edit_text(text=cap, reply_markup=InlineKeyboardMarkup(btn), disable_web_page_preview=True)
         except MessageNotModified:
@@ -694,9 +695,9 @@ async def filter_seasons_cb_handler(client: Client, query: CallbackQuery):
     else:
         season_number = int(season_tag[1:])
         query_input = generate_season_variations(search, season_number)
-        search_final = " | ".join(query_input)
+        search_final = query_input[0] if query_input else search
 
-    BUTTONS[key] = search
+    BUTTONS[key] = search_final
     try:
         if int(query.from_user.id) not in [query.message.reply_to_message.from_user.id, 0]:
             return await query.answer("⚠️ Not your request", show_alert=True)
@@ -774,8 +775,8 @@ async def filter_seasons_cb_handler(client: Client, query: CallbackQuery):
             seconds=curr_time.second + curr_time.microsecond / 1_000_000,
         )
         remaining_seconds = f"{time_difference.total_seconds():.2f}"
-        cap = await get_cap(settings, remaining_seconds, files, query, total_results, search, offset=1)
-
+        dreamx_title = clean_search_text(search_final)
+        cap = await get_cap(settings, remaining_seconds, files, query, total_results, dreamx_title, offset=1)
         try:
             await query.message.edit_text(
                 text=cap,
@@ -880,20 +881,20 @@ async def cb_handler(client: Client, query: CallbackQuery):
 
     elif query.data.startswith("autofilter_delete"):
         await Media.collection.drop()
-        await Media2.collection.drop()
+        if MULTIPLE_DB:    
+            await Media2.collection.drop()
         await query.answer("Eᴠᴇʀʏᴛʜɪɴɢ's Gᴏɴᴇ")
         await query.message.edit('ꜱᴜᴄᴄᴇꜱꜱꜰᴜʟʟʏ ᴅᴇʟᴇᴛᴇᴅ ᴀʟʟ ɪɴᴅᴇxᴇᴅ ꜰɪʟᴇꜱ ✅')
 
     elif query.data.startswith("checksub"):
         try:
             ident, kk, file_id = query.data.split("#")
+            btn = []
             chat = file_id.split("_")[0]
             settings = await get_settings(chat)
-            btn = []
-            dreamx_channels = settings.get('fsub', AUTH_CHANNELS) if settings else AUTH_CHANNELS
-            btn += await is_subscribed(client, query.from_user.id, dreamx_channels)
-            if settings.get('fsub', AUTH_CHANNELS) == AUTH_CHANNELS:
-                btn += await is_req_subscribed(client, query.from_user.id, AUTH_REQ_CHANNELS)
+            fsub_channels = list(dict.fromkeys((settings.get('fsub', []) if settings else [])+ AUTH_CHANNELS)) 
+            btn += await is_subscribed(client, query.from_user.id, fsub_channels)
+            btn += await is_req_subscribed(client, query.from_user.id, AUTH_REQ_CHANNELS)
             if btn:
                 btn.append([InlineKeyboardButton("♻️ ᴛʀʏ ᴀɢᴀɪɴ ♻️", callback_data=f"checksub#{kk}#{file_id}")])
                 try:
@@ -902,14 +903,13 @@ async def cb_handler(client: Client, query: CallbackQuery):
                     pass
                 await query.answer(
                     f"👋 Hello {query.from_user.first_name},\n\n"
-                    "Yᴏᴜ ʜᴀᴠᴇ ɴᴏᴛ ᴊᴏɪɴᴇᴅ ᴀʟʟ ʀᴇǫᴜɪʀᴇᴅ ᴜᴘᴅᴀᴛᴇ Cʜᴀɴɴᴇʟs.\n"
-                    "Pʟᴇᴀsᴇ ᴊᴏɪɴ ᴇᴀᴄʜ ᴏɴᴇ ᴀɴᴅ ᴛʀʏ ᴀɢᴀɪɴ.\n",
+                    "🛑 Yᴏᴜ ʜᴀᴠᴇ ɴᴏᴛ ᴊᴏɪɴᴇᴅ ᴀʟʟ ʀᴇǫᴜɪʀᴇᴅ ᴜᴘᴅᴀᴛᴇ Cʜᴀɴɴᴇʟs.\n"
+                    "👉 Pʟᴇᴀsᴇ ᴊᴏɪɴ ᴇᴀᴄʜ ᴏɴᴇ ᴀɴᴅ ᴛʀʏ ᴀɢᴀɪɴ.\n",
                     show_alert=True
                 )
                 return
             await query.answer(url=f"https://t.me/{temp.U_NAME}?start={kk}_{file_id}")
             await query.message.delete()
-
         except Exception as e:
             await log_error(client, f"❌ Error in checksub callback:\n\n{repr(e)}")
             logger.error(f"❌ Error in checksub callback:\n\n{repr(e)}")
@@ -1479,12 +1479,16 @@ async def cb_handler(client: Client, query: CallbackQuery):
                 reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton("🚀 Fast Download 🚀", url=dreamx_download),  # we download Link
                                                     InlineKeyboardButton('🖥️ Watch online 🖥️', url=dreamx_stream)]])  # web stream Link
             )
-            dreamcinezone = await query.message.reply_text(
-                text="•• ʟɪɴᴋ ɢᴇɴᴇʀᴀᴛᴇᴅ ☠︎⚔",
-                quote=True,
-                disable_web_page_preview=True,
-                reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton("🚀 Fast Download 🚀", url=dreamx_download),  # we download Link
-                                                    InlineKeyboardButton('🖥️ Watch online 🖥️', url=dreamx_stream)]])  # web stream Link
+            dreamcinezone = await query.edit_message_reply_markup(
+                reply_markup=InlineKeyboardMarkup([
+                    [
+                        InlineKeyboardButton("🚀 Download ", url=dreamx_download),
+                        InlineKeyboardButton('🖥️ Watch ', url=dreamx_stream)
+                    ],
+                    [
+                        InlineKeyboardButton('📌 ᴊᴏɪɴ ᴜᴘᴅᴀᴛᴇꜱ ᴄʜᴀɴɴᴇʟ 📌', url=UPDATE_CHNL_LNK)
+                    ]
+                ])
             )
             await asyncio.sleep(DELETE_TIME)
             await dreamcinezone.delete()
@@ -1493,6 +1497,8 @@ async def cb_handler(client: Client, query: CallbackQuery):
             print(e)
             await query.answer(f"⚠️ SOMETHING WENT WRONG STREAM LINK  \n\n{e}", show_alert=True)
             return
+        
+        
     elif query.data == "prestream":
         await query.answer(text=script.PRE_STREAM_ALERT, show_alert=True)
         dreamcinezone = await client.send_photo(
