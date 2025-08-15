@@ -190,6 +190,7 @@ BAD_WORDS = {
     "primefix",
     "join",
     "www",
+    "cinevood",
     "villa",
     "tg",
     "original"
