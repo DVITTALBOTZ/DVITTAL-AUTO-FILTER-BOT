@@ -288,20 +288,37 @@ async def list_users(bot, message):
 
 @Client.on_message(filters.command('chats') & filters.user(ADMINS))
 async def list_chats(bot, message):
-    dreamxbotz = await message.reply('Getting List Of chats')
+    print("Command 'chats' invoked by user")
+    raju = await message.reply('Getting List Of Chats')
+    print("Sent initial reply to user")
+
     chats = await db.get_all_chats()
+    print("Fetched all chats from database")
+
     out = "Chats Saved In DB Are:\n\n"
+    count = 0
     async for chat in chats:
-        out += f"**Title:** `{chat['title']}`\n**- ID:** `{chat['id']}`"
-        if chat['chat_status']['is_disabled']:
-            out += '( Disabled Chat )'
-        out += '\n'
+        chat_title = chat.get('title')  # Check if 'title' exists
+        if not chat_title:  # Skip if 'title' is missing
+            print(f"Skipping chat with ID: {chat['id']} (No title found)")
+            continue
+
+        out += f"**Title:** `{chat_title}`\n**- ID:** `{chat['id']}`\n"
+        count += 1
+        print(f"Processed chat with ID: {chat['id']} and title: {chat_title}")
+
     try:
-        await dreamxbotz.edit_text(out)
+        if count > 0:
+            await raju.edit_text(out)
+            print("Updated message with chat list")
+        else:
+            await raju.edit_text("No chats found with titles")
+            print("No chats found with titles in database")
     except MessageTooLong:
         with open('chats.txt', 'w+') as outfile:
             outfile.write(out)
         await message.reply_document('chats.txt', caption="List Of Chats")
+        print("Message too long, sent as document instead")
 
 
 @Client.on_message(filters.command('group_cmd'))
