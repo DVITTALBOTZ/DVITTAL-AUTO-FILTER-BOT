@@ -193,11 +193,11 @@ class Database:
         await self.grp.update_one({'id': int(chat)}, {'$set': {'chat_status': chat_status}})
 
     async def total_chat_count(self):
-        count = await self.grp.count_documents({})
+        count = await self.grp.count_documents({"type": {"$in": ["group", "supergroup", "channel"]}})
         return count
-    
+
     async def get_all_chats(self):
-        return self.grp.find({})
+        return self.grp.find({"type": {"$in": ["group", "supergroup", "channel"]}})
 
     async def get_db_size(self):
         return (await self.db.command("dbstats"))['dataSize']
