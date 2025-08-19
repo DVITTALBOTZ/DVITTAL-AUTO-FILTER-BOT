@@ -300,15 +300,15 @@ Requested by : {message.from_user.mention}</b>"""
     
 🌍 <u>𝑨𝒗𝒂𝒊𝒍𝒂𝒃𝒍𝒆 𝑷𝒍𝒂𝒏𝒔</u> :
 
-<blockquote>⚜️ 10 𝑹𝒖𝒑𝒂𝒚𝒆 👉 7 𝒅𝒂𝒚𝒔
+<blockquote>⚜️ 3 𝑹𝒖𝒑𝒂𝒚𝒆 👉 7 𝒅𝒂𝒚𝒔
 
-⚜️ 20 𝑹𝒖𝒑𝒂𝒚𝒆 👉 15 𝒅𝒂𝒚𝒔 
+⚜️ 5 𝑹𝒖𝒑𝒂𝒚𝒆 👉 15 𝒅𝒂𝒚𝒔 
 
-⚜️ 40 𝑹𝒖𝒑𝒂𝒚𝒆 👉 30 𝒅𝒂𝒚𝒔 
+⚜️ 10 𝑹𝒖𝒑𝒂𝒚𝒆 👉 30 𝒅𝒂𝒚𝒔 
 
-⚜️ 55 𝑹𝒖𝒑𝒂𝒚𝒆 👉 45 𝒅𝒂𝒚𝒔 
+⚜️ 50 𝑹𝒖𝒑𝒂𝒚𝒆 👉 45 𝒅𝒂𝒚𝒔 
 
-⚜️ 75 𝑹𝒖𝒑𝒂𝒚𝒆 👉 60 𝒅𝒂𝒚𝒔</blockquote>
+⚜️ 99 𝑹𝒖𝒑𝒂𝒚𝒆 👉 60 𝒅𝒂𝒚𝒔</blockquote>
 
 𝑺𝒆𝒍𝒆𝒄𝒕 𝒀𝒐𝒖𝒓 𝑷𝒂𝒚𝒎𝒆𝒏𝒕 𝑴𝒆𝒕𝒉𝒐𝒅.....
 
@@ -359,7 +359,7 @@ Requested by : {message.from_user.mention}</b>"""
 
 
 This Is An Open-Source Project. You Can Use It Freely, But Selling The Source Code Is Strictly Prohibited.\n
-ꜱᴏᴜʀᴄᴇ ᴄᴏᴅᴇ ʜᴇʀᴇ ◉› :<a href= NEHI HAI>𝓓𝓻𝓮𝓪𝓶𝔁𝓑𝓸𝓽𝔃</a>\n """
+ꜱᴏᴜʀᴄᴇ ᴄᴏᴅᴇ ʜᴇʀᴇ ◉› :<a href= NEHI HAI>SOUMEN</a>\n """
 
     SETTING_TXT = """    
 <u>ꜱᴇᴛᴛɪɴɢꜱ</u> :
