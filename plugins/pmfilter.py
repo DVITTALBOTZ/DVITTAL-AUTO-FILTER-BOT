@@ -1887,10 +1887,10 @@ async def auto_filter(client, msg, spoll=False):
             settings = await get_settings(message.chat.id)
             if not files:
                 if settings["spell_check"]:
-                    ai_sts = await m.edit('🤖 ᴘʟᴇᴀꜱᴇ ᴡᴀɪᴛ, ᴀɪ ɪꜱ ᴄʜᴇᴄᴋɪɴɢ ʏᴏᴜʀ ꜱᴘᴇʟʟɪɴɢ...')
+                    ai_sts = await m.edit('𝐏𝐋𝐄𝐀𝐒𝐄 𝐖𝐀𝐈𝐓, 𝐀𝐈 𝐂𝐇𝐄𝐀𝐊𝐈𝐍𝐆 𝐘𝐎𝐔𝐑 𝐒𝐏𝐄𝐋𝐋𝐈𝐍𝐆...')
                     is_misspelled = await ai_spell_check(chat_id=message.chat.id, wrong_name=search)
                     if is_misspelled:
-                        await ai_sts.edit(f'✅ Aɪ Sᴜɢɢᴇsᴛᴇᴅ: <code>{is_misspelled}</code>\n🔍 Searching for it...')
+                        await ai_sts.edit(f'𝐀𝐈 𝐒𝐔𝐆𝐆𝐄𝐒𝐓𝐄𝐃 ✅: <code>{is_misspelled}</code>\n🔍 Searching for it...')
                         message.text = is_misspelled
                         await ai_sts.delete()
                         return await auto_filter(client, message)
