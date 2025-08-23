@@ -178,17 +178,19 @@ async def get_movie_detailsx(query, id=False, file=None):
     details['tmdb_id'] = data.get('tmdb_id')
     
     posters = data.get('images', {}).get('posters', {})
+    original_language = data.get('images', {}).get('original_language')
     poster_url = data.get('poster_url')
     if not poster_url:
-        for key in ('en', data.get('original_language'), 'no_lang'):
+        for key in ('en', original_language, 'no_lang'):
             if key and posters.get(key):
                 poster_url = posters[key][0]
                 break
     details['poster_url'] = poster_url
 
     backdrops = data.get('images', {}).get('backdrops', {})
+    original_language = data.get('images', {}).get('original_language')
     backdrop_url = None
-    for key in ('en', data.get('original_language'), 'no_lang'):
+    for key in ('en', original_language, 'no_lang'):
         if key and backdrops.get(key):
             backdrop_url = backdrops[key][0]
             break
