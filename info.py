@@ -191,6 +191,8 @@ BAD_WORDS = {
     "join",
     "www",
     "cinevood",
+    "PIRO",
+    "extraflix",
     "villa",
     "tg",
     "original"
