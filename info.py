@@ -31,12 +31,12 @@ INDEX_CAPTION = bool(environ.get('SAVE_CAPTION', True)) # Save caption db when i
 #Making it false will not save caption in db SO you can save some storage space
 
 
-PICS = (environ.get('PICS', 'https://envs.sh/tjW.jpg https://envs.sh/tjP.jpg https://envs.sh/tjb.jpg https://envs.sh/tji.jpg')).split()  # Sample pic
+PICS = (environ.get('PICS', 'https://i.ibb.co/RktmYMqF/x.jpg https://i.ibb.co/8gN2bVsV/x.jpg https://i.ibb.co/x8qVrDdM/x.jpg https://i.ibb.co/Hf5ShsGm/x.jpg')).split()  # Sample pic
 NOR_IMG = environ.get("NOR_IMG", "https://graph.org/file/e20b5fdaf217252964202.jpg")
-MELCOW_PHOTO = environ.get("MELCOW_PHOTO", "https://envs.sh/tj7.jpg")
+MELCOW_PHOTO = environ.get("MELCOW_PHOTO", "https://i.ibb.co/1Y8Sv79v/x.jpg")
 SPELL_IMG = environ.get("SPELL_IMG", "https://graph.org/file/13702ae26fb05df52667c.jpg")
 SUBSCRIPTION = (environ.get('SUBSCRIPTION', 'https://graph.org/file/242b7f1b52743938d81f1.jpg'))
-FSUB_PICS = (environ.get('FSUB_PICS', 'https://envs.sh/tj0.jpg https://envs.sh/tjq.jpg')).split()  # Fsub pic
+FSUB_PICS = (environ.get('FSUB_PICS', 'https://i.ibb.co/Ps7KX9T9/x.jpg https://i.ibb.co/gZJ6rtmh/x.jpg')).split()  # Fsub pic
 
 # ============================
 # Admin, Channels & Users Configuration
