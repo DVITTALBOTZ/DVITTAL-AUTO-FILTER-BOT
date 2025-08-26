@@ -114,8 +114,8 @@ SHORTENER_WEBSITE2 = environ.get("SHORTENER_WEBSITE2", "gplinks.com") # Shortene
 SHORTENER_API3 = environ.get("SHORTENER_API3", "ac18377557e8bfd355da3dc6f408b850ca27753e")  
 SHORTENER_WEBSITE3 = environ.get("SHORTENER_WEBSITE3", "gplinks.com") # Shortener website for third website
 
-TWO_VERIFY_GAP = int(environ.get('TWO_VERIFY_GAP', "21600")) # Time gap for two-step verification in seconds (default: 20 minutes)
-THREE_VERIFY_GAP = int(environ.get('THREE_VERIFY_GAP', "21600"))    
+TWO_VERIFY_GAP = int(environ.get('TWO_VERIFY_GAP', "5400")) # Time gap for two-step verification in seconds (default: 20 minutes)
+THREE_VERIFY_GAP = int(environ.get('THREE_VERIFY_GAP', "5400"))    
 
 # ============================
 # Channel & Group Links Configuration
@@ -129,7 +129,7 @@ UPDATE_CHNL_LNK = environ.get('UPDATE_CHNL_LNK', 'https://t.me/Malli4U_Official2
 # ============================
 auth_users = [int(user) if id_pattern.search(user) else user for user in environ.get('AUTH_USERS', '').split()]
 AUTH_USERS = (auth_users + ADMINS) if auth_users else []
-PREMIUM_USER = [int(user) if id_pattern.search(user) else user for user in environ.get('PREMIUM_USER', '').split()]
+PREMIUM_USER = [int(user) if id_pattern.search(user) else user for user in environ.get('PREMIUM_USER', '865764383 7901412493').split()]
 
 # ============================
 # Miscellaneous Configuration
