@@ -208,7 +208,7 @@ Nᴀᴍᴇ : {}
 
 Mᴇꜱꜱᴀɢᴇ : <b>{}</b>"""
     
-    CAPTION = """<b><a href="https://t.me/Malli4U_Official2">{file_name}</a></b>\n\n<b>⚜️ Powered By : <a href="https://t.me/Malli4U_Official2">[ ᴍᴀʟʟɪ ᴏғғɪᴄɪᴀʟ ]</a></b>"""
+    CAPTION = """<b> ғɪʟᴇs sɪᴢᴇ : <i>{file_size}</i>\n\n{file_caption}\n\n<b> 💝 𝗝𝗢𝗜𝗡 [𝗠𝗔𝗟𝗟𝗜𝟰𝗨 𝗢𝗙𝗙𝗜𝗖𝗜𝗔𝗟](https://t.me/Malli4U_Official2) 💝 </b>"""
 
     
     MOVIE_UPDATE_NOTIFY_TXT = """
