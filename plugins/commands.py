@@ -222,9 +222,10 @@ async def start(client, message):
     
     data = message.command[1]
     try:
-        pre, grp_id, file_id = data.split('_', 2)
-    except Exception:
-        pre, grp_id, file_id = "", 0, data
+        _, grp_id, file_id = data.split("_", 2)
+        grp_id = int(grp_id)
+    except:
+        _, grp_id, file_id = "", 0, data
 
     if not await db.has_premium_access(message.from_user.id): 
         try:
