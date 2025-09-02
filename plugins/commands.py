@@ -176,6 +176,9 @@ async def start(client, message):
         if referdb.is_user_in_list(message.from_user.id):
             await message.reply_text("Yᴏᴜ ʜᴀᴠᴇ ʙᴇᴇɴ ᴀʟʀᴇᴀᴅʏ ɪɴᴠɪᴛᴇᴅ ❗")
             return
+        if await db.is_user_exist(message.from_user.id): 
+            await message.reply_text("‼️ Yᴏᴜ Hᴀᴠᴇ Bᴇᴇɴ Aʟʀᴇᴀᴅʏ Iɴᴠɪᴛᴇᴅ ᴏʀ Jᴏɪɴᴇᴅ")
+            return 
         try:
             uss = await client.get_users(user_id)
         except Exception:
