@@ -1465,7 +1465,7 @@ async def cb_handler(client: Client, query: CallbackQuery):
         try:
             user_id = query.from_user.id
             username = query.from_user.mention
-            log_msg = await client.send_cached_media(chat_id=LOG_CHANNEL, file_id=file_id,)
+            log_msg = await client.send_cached_media(chat_id=BIN_CHANNEL, file_id=file_id,)
             fileName = {quote_plus(get_name(log_msg))}
             dreamx_stream = f"{URL}watch/{str(log_msg.id)}/{quote_plus(get_name(log_msg))}?hash={get_hash(log_msg)}"
             dreamx_download = f"{URL}{str(log_msg.id)}/{quote_plus(get_name(log_msg))}?hash={get_hash(log_msg)}"
