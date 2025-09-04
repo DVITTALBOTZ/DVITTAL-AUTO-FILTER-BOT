@@ -80,6 +80,11 @@ async def dreamxbotz_start():
     now = datetime.now(tz)
     time = now.strftime("%H:%M:%S %p")
     await dreamxbotz.send_message(chat_id=LOG_CHANNEL, text=script.RESTART_TXT.format(temp.B_LINK, today, time))
+    for admin_id in ADMINS:
+        try:
+            await dreamxbotz.send_message(chat_id=int(admin_id), text=f"🤖 {temp.B_NAME} Restarted Successfully ✅")
+        except Exception as e:
+            logging.warning(f"Couldn't send restart message to admin {admin_id}: {e}")
     app = web.AppRunner(await web_server())
     await app.setup()
     bind_address = "0.0.0.0"
