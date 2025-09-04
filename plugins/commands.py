@@ -835,6 +835,7 @@ async def deletemultiplefiles(bot, message):
     await k.delete()
     if total == 0:
         return await message.reply_text(f"<b>Hey {message.from_user.mention}, No files found for your query {keyword}.</b>")
+        
     btn = [[
        InlineKeyboardButton("⚠️ Yes, Continue ! ⚠️", callback_data=f"killfilesdq#{keyword}")
        ],[
