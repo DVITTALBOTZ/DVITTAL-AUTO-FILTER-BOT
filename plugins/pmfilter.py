@@ -328,7 +328,7 @@ async def advantage_spoll_choker(bot, query):
         reqstr = await bot.get_users(reqstr1)
         if NO_RESULTS_MSG:
             try:
-                await bot.send_message(chat_id=BIN_CHANNEL, text=script.NORSLTS.format(reqstr.id, reqstr.mention, movie))
+                await bot.send_message(chat_id=LOG_CHANNEL, text=script.NORSLTS.format(reqstr.id, reqstr.mention, movie))
             except Exception as e:
                 print(f"Error In Spol - {e}   Make Sure Bot Admin BIN CHANNEL")
         btn = InlineKeyboardMarkup(
