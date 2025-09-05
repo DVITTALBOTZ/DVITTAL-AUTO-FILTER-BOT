@@ -20,7 +20,7 @@ def is_enabled(value, default):
 SESSION = environ.get('SESSION', 'dreamxbotz_search')   # Session name for the bot
 API_ID = int(environ.get('API_ID', '22262560')) # API ID from my.telegram.org
 API_HASH = environ.get('API_HASH', '73eeccd990484d0c87a90756aae9fa21')  # API Hash from my.telegram.org
-BOT_TOKEN = environ.get('BOT_TOKEN', "8302871737:AAF7s6Na08fjLIiv2u9tMM2nu1EtucxqqyY")    # Bot token from @BotFather
+BOT_TOKEN = environ.get('BOT_TOKEN', "8302871737:"")    # Bot token from @BotFather
 
 # ============================
 # Bot Settings Configuration
