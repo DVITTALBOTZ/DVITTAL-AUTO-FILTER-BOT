@@ -49,7 +49,7 @@ BIN_CHANNEL = int(environ.get('BIN_CHANNEL', '-1002352648999'))  # Bin channel i
 PREMIUM_LOGS = int(environ.get('PREMIUM_LOGS', '-1002805287537'))  # Premium logs channel id
 DELETE_CHANNELS = [int(dch) if id_pattern.search(dch) else dch for dch in environ.get('DELETE_CHANNELS', '-1002756257415').split()] #(make sure bot is admin)
 support_chat_id = environ.get('SUPPORT_CHAT_ID', '-1002824228432')  # Support group id (make sure bot is admin)
-reqst_channel = environ.get('REQST_CHANNEL_ID', '-1002825123866')  # Request channel id (make sure bot is admin)
+reqst_channel = environ.get('REQST_CHANNEL_ID', '-1002662438545')  # Request channel id (make sure bot is admin)
 SUPPORT_CHAT = environ.get('SUPPORT_CHAT', 'https://t.me/+oTQk9QGQ-YRmZWI1')  # Support group link (make sure bot is admin)
 
 # FORCE_SUB 
