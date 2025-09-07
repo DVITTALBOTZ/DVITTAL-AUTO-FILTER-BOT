@@ -50,7 +50,7 @@ class ByteStreamer:
         Generates the properties of a media file on a specific message.
         returns ths properties in a FIleId class.
         """
-        file_id = await get_file_ids(self.client, LOG_CHANNEL, id)
+        file_id = await get_file_ids(self.client, BIN_CHANNEL, id)
         logging.debug(f"Generated file ID and Unique ID for message with ID {id}")
         if not file_id:
             logging.debug(f"Message with ID {id} not found")

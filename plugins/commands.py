@@ -171,6 +171,9 @@ async def start(client, message):
         if referdb.is_user_in_list(message.from_user.id):
             await message.reply_text("Yᴏᴜ ʜᴀᴠᴇ ʙᴇᴇɴ ᴀʟʀᴇᴀᴅʏ ɪɴᴠɪᴛᴇᴅ ❗")
             return
+        if await db.is_user_exist(message.from_user.id): 
+            await message.reply_text("‼️ Yᴏᴜ Hᴀᴠᴇ Bᴇᴇɴ Aʟʀᴇᴀᴅʏ Iɴᴠɪᴛᴇᴅ ᴏʀ Jᴏɪɴᴇᴅ")
+            return 
         try:
             uss = await client.get_users(user_id)
         except Exception:
@@ -830,6 +833,9 @@ async def deletemultiplefiles(bot, message):
     k = await bot.send_message(chat_id=message.chat.id, text=f"<b>Fetching Files for your query {keyword} on DB... Please wait...</b>")
     files, total = await get_bad_files(keyword)
     await k.delete()
+    if total == 0:
+        return await message.reply_text(f"<b>Hey {message.from_user.mention}, No files found for your query {keyword}.</b>")
+        
     btn = [[
        InlineKeyboardButton("⚠️ Yes, Continue ! ⚠️", callback_data=f"killfilesdq#{keyword}")
        ],[
