@@ -33,8 +33,5 @@ class Database:
         ]
         results = await self.col.aggregate(pipeline).to_list(limit)
         return [result['_id'] for result in results]
-    
-    async def delete_all_messages(self):
-        await self.col.delete_many({})
 
 mdb = Database(DATABASE_URI, "admin_database")
