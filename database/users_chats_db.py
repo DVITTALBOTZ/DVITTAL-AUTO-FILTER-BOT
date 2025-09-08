@@ -21,12 +21,6 @@ class Database:
         self.movie_updates = self.db.movie_updates
         self.connection = self.db.connections
 
-    async def add_name(self, filename):
-        if await self.movie_updates.find_one({'_id': filename}):
-            return False
-        await self.movie_updates.insert_one({'_id': filename})
-        return True
-
     async def delete_all_msg(self):
         await self.movie_updates.delete_many({})
         print("All filenames notification have been deleted.")
@@ -198,9 +192,6 @@ class Database:
     
     async def get_all_chats(self):
         return self.grp.find({})
-
-    async def get_db_size(self):
-        return (await self.db.command("dbstats"))['dataSize']
 
     async def get_user(self, user_id):
         user_data = await self.users.find_one({"id": user_id})
