@@ -152,7 +152,7 @@ class Database:
             'auto_ffilter': AUTO_FFILTER,
             'max_btn': MAX_BTN,
             'template': IMDB_TEMPLATE,
-            'log': LOG_CHANNEL,
+            'log': LOG_VR_CHANNEL,
             'tutorial': TUTORIAL,
             'tutorial_2': TUTORIAL_2,
             'tutorial_3': TUTORIAL_3,
