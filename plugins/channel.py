@@ -319,7 +319,7 @@ async def send_movie_update(bot, base_name):
             text = generate_movie_message(movie_doc, base_name)
             buttons = InlineKeyboardMarkup([[
                 InlineKeyboardButton(
-                    'ɢᴇᴛ ғɪʟᴇs',
+                    '🔰ᴍᴏᴠɪᴇ ʀᴇQᴜᴇꜱᴛ ɢʀᴏᴜᴘ🔰',
                     url=f"https://t.me/+K7huvSP1ttFhNTZl"
                 )
             ]])
@@ -368,7 +368,7 @@ async def update_movie_message(bot, base_name):
         text = generate_movie_message(movie_doc, base_name)
         buttons = InlineKeyboardMarkup([[
             InlineKeyboardButton(
-                'ɢᴇᴛ ғɪʟᴇs',
+                '🔰ᴍᴏᴠɪᴇ ʀᴇQᴜᴇꜱᴛ ɢʀᴏᴜᴘ🔰',
                 url=f"https://t.me/+K7huvSP1ttFhNTZl"
             )
         ]])
