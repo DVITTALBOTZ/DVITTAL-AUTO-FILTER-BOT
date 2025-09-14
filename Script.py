@@ -229,20 +229,10 @@ Mᴇꜱꜱᴀɢᴇ : <b>{}</b>"""
     MOVIE_UPDATE_NOTIFY_TXT = """
 </b><a href={poster_url}>📥</a><a href={imdb_url}>New {tag} Added</a></b>
 
-<blockquote>✨ ᴛɪᴛʟᴇ : <code>{filename}</code>
-
-
-🎭 ɢᴇɴʀᴇs : <b>{genres}</b>
-📺 ᴏᴛᴛ        : <b>{ott}</b>
-🎞️ ǫᴜᴀʟɪᴛʏ : <b>{quality}</b>
-🎧 ᴀᴜᴅɪᴏ    : <b>{language}</b>
-🔥 ʀᴀᴛɪɴɢ   : <b>{rating}</b>
-{episodes}
-</blockquote>
-
-
-🔍 <b>Sᴇᴀʀᴄʜ →</b> {search_link}
-"""
+<blockquote><b>✨ ᴛɪᴛʟᴇ </b>: <code>{filename}</code>
+                <b>(Touch to copy)</b>
+ 
+ ᴀᴜᴅɪᴏ ᴛʀᴀᴄᴋ  : <b>{language}</b></blockquote>"""
 
 
     IMDB_TEMPLATE_TXT = """
