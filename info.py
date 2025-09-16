@@ -96,8 +96,8 @@ LANDSCAPE_POSTER = bool(environ.get('LANDSCAPE_POSTER', True)) # Shows landscape
 # Verification Settings
 # ============================
 IS_VERIFY = is_enabled('IS_VERIFY', False)  # Verification On (True) / Off (False)
-LOG_VR_CHANNEL = int(environ.get('LOG_VR_CHANNEL', '-100')) #Verification Channel Id 
-LOG_API_CHANNEL = int(environ.get('LOG_API_CHANNEL', '-100')) #If Anyone Set Your Bot In Any Group And Set Shortner In That Group Then In This Channel The All Details Come
+LOG_VR_CHANNEL = int(environ.get('LOG_VR_CHANNEL', '-1003013199447')) #Verification Channel Id 
+LOG_API_CHANNEL = int(environ.get('LOG_API_CHANNEL', '-1002961297038')) #If Anyone Set Your Bot In Any Group And Set Shortner In That Group Then In This Channel The All Details Come
 VERIFY_IMG = environ.get("VERIFY_IMG", "https://telegra.ph/file/9ecc5d6e4df5b83424896.jpg")
 
 TUTORIAL = environ.get("TUTORIAL", "https://t.me/tutorial_filx/5")   # Tutorial link for verification
@@ -106,13 +106,13 @@ TUTORIAL_3 = environ.get("TUTORIAL_3", "https://t.me/tutorial_filx/5")   # Third
 
 # Verification (Must Fill All Veriables. Else You Got Error
 SHORTENER_API = environ.get("SHORTENER_API", "3adca196c74366f9d2991580d3fc459015b8ae36") # Shortener API key
-SHORTENER_WEBSITE = environ.get("SHORTENER_WEBSITE", "https://concrete-amity-opsoft-b1d77acb.koyeb.app") # Shortener website
+SHORTENER_WEBSITE = environ.get("SHORTENER_WEBSITE", "https://concrete-amity-opsoft-b1d77acb.koyeb.app/api") # Shortener website
 
 SHORTENER_API2 = environ.get("SHORTENER_API2", "3adca196c74366f9d2991580d3fc459015b8ae36")  # Shortener API key for second website
-SHORTENER_WEBSITE2 = environ.get("SHORTENER_WEBSITE2", "https://concrete-amity-opsoft-b1d77acb.koyeb.app") # Shortener website for second website
+SHORTENER_WEBSITE2 = environ.get("SHORTENER_WEBSITE2", "https://concrete-amity-opsoft-b1d77acb.koyeb.app/api") # Shortener website for second website
 
 SHORTENER_API3 = environ.get("SHORTENER_API3", "3adca196c74366f9d2991580d3fc459015b8ae36")  
-SHORTENER_WEBSITE3 = environ.get("SHORTENER_WEBSITE3", "https://concrete-amity-opsoft-b1d77acb.koyeb.app") # Shortener website for third website
+SHORTENER_WEBSITE3 = environ.get("SHORTENER_WEBSITE3", "https://concrete-amity-opsoft-b1d77acb.koyeb.app/api") # Shortener website for third website
 
 TWO_VERIFY_GAP = int(environ.get('TWO_VERIFY_GAP', "21600")) # Time gap for two-step verification in seconds (default: 20 minutes)
 THREE_VERIFY_GAP = int(environ.get('THREE_VERIFY_GAP', "43200"))    
