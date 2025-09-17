@@ -14,7 +14,6 @@ from database.users_chats_db import db
 from bs4 import BeautifulSoup
 import requests
 from shortzy import Shortzy
-import httpx
 
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.INFO)
@@ -287,58 +286,21 @@ async def search_gagala(text):
     titles = soup.find_all( 'h3' )
     return [title.getText() for title in titles]
 
-async def get_shortlink_combined(link, grp_id, is_second_shortener=False, is_third_shortener=False):
-    """
-    Shorten a link using configured shorteners for a group.
-    Preserves original 1st/2nd/3rd shortener logic.
-    If Shortzy fails, falls back to a universal wrapper API.
-    
-    Parameters:
-        link (str): URL to shorten
-        grp_id (str/int): Group ID to fetch settings
-        is_second_shortener (bool): Use second shortener if True
-        is_third_shortener (bool): Use third shortener if True
-    
-    Returns:
-        str: Shortened URL or original link if all fails
-    """
+async def get_shortlink(link, grp_id, is_second_shortener=False, is_third_shortener=False):
     settings = await get_settings(grp_id)
-
-    # --- Preserve original shortener selection logic ---
-    if is_third_shortener:
+    if is_third_shortener:             
         api, site = settings['api_three'], settings['shortner_three']
-    elif is_second_shortener:
-        api, site = settings['api_two'], settings['shortner_two']
     else:
-        api, site = settings['api'], settings['shortner']
-
+        if is_second_shortener:
+            api, site = settings['api_two'], settings['shortner_two']
+        else:
+            api, site = settings['api'], settings['shortner']
     shortzy = Shortzy(api, site)
-
     try:
-        # Try Shortzy conversion first
         link = await shortzy.convert(link)
     except Exception as e:
-        print(f"Shortzy failed for group {grp_id}: {e}, trying universal wrapper API...")
-
-        # --- Fallback: wrapper/universal API ---
-        try:
-            async with httpx.AsyncClient() as client:
-                resp = await client.get(site, params={"api": api, "url": link}, timeout=15)
-                data = resp.json()
-                print(f"Wrapper API response for group {grp_id}:", data)
-
-            if isinstance(data, dict):
-                for key in ["shortenedUrl", "shorturl", "short", "url"]:
-                    if key in data:
-                        link = data[key]
-                        break
-            # If no valid key, link remains unchanged
-        except Exception as e2:
-            print(f"Wrapper API fallback failed for group {grp_id}: {e2}")
-            # Keep original link if all fails
-
+        link = await shortzy.get_quick_link(link)
     return link
-
 
 async def get_settings(group_id):
     settings = temp.SETTINGS.get(group_id)
