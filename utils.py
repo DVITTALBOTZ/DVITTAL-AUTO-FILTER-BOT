@@ -288,19 +288,34 @@ async def search_gagala(text):
 
 async def get_shortlink(link, grp_id, is_second_shortener=False, is_third_shortener=False):
     settings = await get_settings(grp_id)
+
+    # Select API + Site based on which shortener is used
     if is_third_shortener:             
         api, site = settings['api_three'], settings['shortner_three']
+    elif is_second_shortener:
+        api, site = settings['api_two'], settings['shortner_two']
     else:
-        if is_second_shortener:
-            api, site = settings['api_two'], settings['shortner_two']
-        else:
-            api, site = settings['api'], settings['shortner']
-    shortzy = Shortzy(api, site)
-    try:
-        link = await shortzy.convert(link)
-    except Exception as e:
-        link = await shortzy.get_quick_link(link)
-    return link
+        api, site = settings['api'], settings['shortner']
+
+    # Call real shortener through wrapper API instead of direct shortener
+    # Example: https://your-wrapper.koyeb.app/api?api=<api>&url=<link>
+    WRAPPER_DOMAIN = os.getenv("WRAPPER_DOMAIN", "").rstrip("/")
+    wrapper_api = f"{WRAPPER_DOMAIN}/api"
+
+    async with httpx.AsyncClient() as client:
+        try:
+            resp = await client.get(wrapper_api, params={"api": api, "url": link}, timeout=20)
+            data = resp.json()
+        except Exception as e:
+            # fallback to original link if wrapper fails
+            return link
+
+    # Wrapper API returns JSON with shortenedUrl (already rewritten)
+    if "shortenedUrl" in data:
+        return data["shortenedUrl"]
+    else:
+        return link
+
 
 async def get_settings(group_id):
     settings = temp.SETTINGS.get(group_id)
