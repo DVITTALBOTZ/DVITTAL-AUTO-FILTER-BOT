@@ -297,24 +297,20 @@ async def get_shortlink(link, grp_id, is_second_shortener=False, is_third_shorte
     else:
         api, site = settings['api'], settings['shortner']
 
-    # Call real shortener through wrapper API instead of direct shortener
-    # Example: https://your-wrapper.koyeb.app/api?api=<api>&url=<link>
-    WRAPPER_DOMAIN = os.getenv("WRAPPER_DOMAIN", "").rstrip("/")
-    wrapper_api = f"{WRAPPER_DOMAIN}/api"
+  try:
+            async with httpx.AsyncClient() as client:
+                resp = await client.get(url, params={"api": api, "url": link}, timeout=15)
+                data = resp.json()
+                print("Universal shortener response:", data)
 
-    async with httpx.AsyncClient() as client:
-        try:
-            resp = await client.get(wrapper_api, params={"api": api, "url": link}, timeout=20)
-            data = resp.json()
-        except Exception as e:
-            # fallback to original link if wrapper fails
+            if isinstance(data, dict):
+                for key in ["shortenedUrl", "shorturl", "short", "url"]:
+                    if key in data:
+                        return data[key]
             return link
-
-    # Wrapper API returns JSON with shortenedUrl (already rewritten)
-    if "shortenedUrl" in data:
-        return data["shortenedUrl"]
-    else:
-        return link
+        except Exception as e2:
+            print(f"Universal fallback failed: {e2}")
+            return link
 
 
 async def get_settings(group_id):
