@@ -290,8 +290,8 @@ async def search_gagala(text):
 async def get_shortlink(link, grp_id, is_second_shortener=False, is_third_shortener=False):
     settings = await get_settings(grp_id)
 
-    # Choose API and site based on flags
-    if is_third_shortener:             
+    # Select API and site based on flags
+    if is_third_shortener:
         api, site = settings['api_three'], settings['shortner_three']
     elif is_second_shortener:
         api, site = settings['api_two'], settings['shortner_two']
@@ -303,27 +303,25 @@ async def get_shortlink(link, grp_id, is_second_shortener=False, is_third_shorte
         shortzy = Shortzy(api, site)
         return await shortzy.convert(link)
     except Exception as e:
-        print(f"Shortzy failed: {e}, trying quick link...")
+        print(f"Shortzy failed: {e}, trying universal method...")
+
+        # Universal HTTP fallback
         try:
-            # Fallback: Shortzy quick link
-            shortzy = Shortzy(api, site)
-            return await shortzy.get_quick_link(link)
+            async with httpx.AsyncClient() as client:
+                resp = await client.get(site, params={"api": api, "url": link}, timeout=15)
+                data = resp.json()
+                print("Universal shortener response:", data)
+            
+            if isinstance(data, dict):
+                for key in ["shortenedUrl", "shorturl", "short", "url"]:
+                    if key in data:
+                        return data[key]
+
+            return link  # fallback to original link if nothing works
         except Exception as e2:
-            print(f"Quick link failed: {e2}, trying universal method...")
-            # Universal HTTP fallback
-            try:
-                async with httpx.AsyncClient() as client:
-                    resp = await client.get(site, params={"api": api, "url": link}, timeout=15)
-                    data = resp.json()
-                    print("Universal shortener response:", data)
-                if isinstance(data, dict):
-                    for key in ["shortenedUrl", "shorturl", "short", "url"]:
-                        if key in data:
-                            return data[key]
-                return link
-            except Exception as e3:
-                print(f"Universal fallback failed: {e3}")
-                return link
+            print(f"Universal fallback failed: {e2}")
+            return link
+
 
 
 
