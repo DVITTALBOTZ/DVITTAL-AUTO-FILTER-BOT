@@ -290,7 +290,7 @@ async def search_gagala(text):
 async def get_shortlink(link, grp_id, is_second_shortener=False, is_third_shortener=False):
     settings = await get_settings(grp_id)
 
-    # Select API + Site based on which shortener is used
+    # Choose API and site based on flags
     if is_third_shortener:             
         api, site = settings['api_three'], settings['shortner_three']
     elif is_second_shortener:
@@ -298,20 +298,33 @@ async def get_shortlink(link, grp_id, is_second_shortener=False, is_third_shorte
     else:
         api, site = settings['api'], settings['shortner']
 
-  try:
-            async with httpx.AsyncClient() as client:
-                resp = await client.get(url, params={"api": api, "url": link}, timeout=15)
-                data = resp.json()
-                print("Universal shortener response:", data)
-
-            if isinstance(data, dict):
-                for key in ["shortenedUrl", "shorturl", "short", "url"]:
-                    if key in data:
-                        return data[key]
-            return link
+    try:
+        # Try Shortzy method first
+        shortzy = Shortzy(api, site)
+        return await shortzy.convert(link)
+    except Exception as e:
+        print(f"Shortzy failed: {e}, trying quick link...")
+        try:
+            # Fallback: Shortzy quick link
+            shortzy = Shortzy(api, site)
+            return await shortzy.get_quick_link(link)
         except Exception as e2:
-            print(f"Universal fallback failed: {e2}")
-            return link
+            print(f"Quick link failed: {e2}, trying universal method...")
+            # Universal HTTP fallback
+            try:
+                async with httpx.AsyncClient() as client:
+                    resp = await client.get(site, params={"api": api, "url": link}, timeout=15)
+                    data = resp.json()
+                    print("Universal shortener response:", data)
+                if isinstance(data, dict):
+                    for key in ["shortenedUrl", "shorturl", "short", "url"]:
+                        if key in data:
+                            return data[key]
+                return link
+            except Exception as e3:
+                print(f"Universal fallback failed: {e3}")
+                return link
+
 
 
 async def get_settings(group_id):
