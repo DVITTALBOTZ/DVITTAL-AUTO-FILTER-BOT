@@ -232,8 +232,7 @@ Mᴇꜱꜱᴀɢᴇ : <b>{}</b>"""
  <code>{filename}</code>
 <b>(Touch to copy)</b>
  
- <code><b>ᴀᴜᴅɪᴏ ᴛʀᴀᴄᴋ  : <b>{language}</b></code>"""
-
+ <pre><b>ᴀᴜᴅɪᴏ ᴛʀᴀᴄᴋ  : <b>{language}</b></pre>"""
 
     IMDB_TEMPLATE_TXT = """
 <b>🏷 Title</b>: <a href={url}>{title}</a>
