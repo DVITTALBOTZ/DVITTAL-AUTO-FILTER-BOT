@@ -230,9 +230,9 @@ Mᴇꜱꜱᴀɢᴇ : <b>{}</b>"""
 <code>{filename}</code>
 <b>(Touch to copy)</b>
  
-<pre><b>▶ ᴀᴜᴅɪᴏ ᴛʀᴀᴄᴋ  : {language}</b></pre>
+<pre><b>▶ ᴀᴜᴅɪᴏ ᴛʀᴀᴄᴋ  : 🔊 {tags}{language}</b></pre>
 
-</b><a href={poster_url}></a>▶<a href={imdb_url}>ᴅᴇᴛᴀɪʟꜱ 📋
+</b><a href={poster_url}></a>▶ <a href={imdb_url}>ᴅᴇᴛᴀɪʟꜱ 📋
 </a></b>
 
 Added✅"""
