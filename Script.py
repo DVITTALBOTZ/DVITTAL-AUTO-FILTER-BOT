@@ -233,9 +233,7 @@ Mᴇꜱꜱᴀɢᴇ : <b>{}</b>"""
 <pre><b>▶ ᴀᴜᴅɪᴏ ᴛʀᴀᴄᴋ  : 🔊 {language}</b></pre>
 
 </b><a href={poster_url}></a>▶ <a href={imdb_url}>ᴅᴇᴛᴀɪʟꜱ 📋
-</a></b>
-
-Added✅"""
+</a></b>    Added✅"""
 
     IMDB_TEMPLATE_TXT = """
 <b>🏷 Title</b>: <a href={url}>{title}</a>
