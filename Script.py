@@ -229,10 +229,11 @@ Mᴇꜱꜱᴀɢᴇ : <b>{}</b>"""
     MOVIE_UPDATE_NOTIFY_TXT = """
 </b><a href={poster_url}>📥</a><a href={imdb_url}>New {tag} Added</a></b>
 
- <code>{filename}</code>
+<code>{filename}</code>
 <b>(Touch to copy)</b>
  
- <pre><b>ᴀᴜᴅɪᴏ ᴛʀᴀᴄᴋ  : <b>{language}</b></pre>"""
+<pre><b>▶ ᴀᴜᴅɪᴏ ᴛʀᴀᴄᴋ  : {language}</b></pre>
+Added✅"""
 
     IMDB_TEMPLATE_TXT = """
 <b>🏷 Title</b>: <a href={url}>{title}</a>
