@@ -17,7 +17,7 @@ from info import ADMINS, LOG_CHANNEL, MELCOW_PHOTO, MULTIPLE_DB, OWNER_LNK
 from Script import script
 from utils import get_readable_time, get_settings, get_size, temp
 
-"""-----------------------------------------https://t.me/dreamxbotz--------------------------------------"""
+"""-----------------------------------------https://t.me/KR_PICTURE--------------------------------------"""
 
 
 @Client.on_message(filters.new_chat_members & filters.group)
@@ -88,7 +88,7 @@ async def save_group(bot, message):
                 except Exception as e:
                     print(f"Welcome photo send failed: {e}")
         if settings.get("auto_delete"):
-            await asyncio.sleep(600)
+            await asyncio.sleep(DELETE_TIME)
             try:
                 if temp.MELCOW.get("welcome"):
                     await temp.MELCOW["welcome"].delete()
