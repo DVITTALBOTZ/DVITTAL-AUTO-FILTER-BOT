@@ -1843,7 +1843,6 @@ async def ai_spell_check(chat_id, wrong_name):
 
 
 async def advantage_spell_chok(client, message):
-    mv_id = message.id
     search = message.text
     chat_id = message.chat.id
     settings = await get_settings(chat_id)
@@ -1859,32 +1858,9 @@ async def advantage_spell_chok(client, message):
     try:
         movies = await get_poster(search, bulk=True)
     except:
-        return  # 🚫 Ignore silently if poster fetch fails
+        return  # ignore on error
 
     if not movies:
-        return  # 🚫 Ignore silently if no movies found
+        return  # ignore silently
 
-    user = message.from_user.id if message.from_user else 0
-    buttons = [
-        [
-            InlineKeyboardButton(
-                text=movie.get("title"), callback_data=f"spol#{movie.movieID}#{user}"
-            )
-        ]
-        for movie in movies
-    ]
-    buttons.append(
-        [InlineKeyboardButton(text="🚫 ᴄʟᴏsᴇ 🚫", callback_data="close_data")]
-    )
-
-    d = await message.reply_text(
-        text=script.CUDNT_FND.format(message.from_user.mention),
-        reply_markup=InlineKeyboardMarkup(buttons),
-        reply_to_message_id=message.id,
-    )
-    await asyncio.sleep(1800)
-    await d.delete()
-    try:
-        await message.delete()
-    except:
-        pass
+    # 🚫 No more buttons / reply feature here
