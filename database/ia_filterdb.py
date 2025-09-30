@@ -1,18 +1,19 @@
-import logging
-from struct import pack
-import re
 import base64
-from pyrogram.file_id import FileId
-from typing import Dict, List
+import logging
+import re
 from collections import defaultdict
-from pymongo.errors import DuplicateKeyError
-from umongo import Instance, Document, fields
-from motor.motor_asyncio import AsyncIOMotorClient
+from datetime import datetime, timedelta
+from struct import pack
+from typing import Dict, List
+
 from marshmallow import ValidationError
+from motor.motor_asyncio import AsyncIOMotorClient
+from pymongo.errors import DuplicateKeyError
+from pyrogram.file_id import FileId
+from umongo import Document, Instance, fields
+
 from info import *
 from utils import get_settings, save_group_settings
-from datetime import datetime, timedelta
-import logging
 
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.INFO)
@@ -178,9 +179,7 @@ async def get_search_results(
         elif " " not in query:
             raw_pattern = r"(\b|[\.\+\-_])" + query + r"(\b|[\.\+\-_])"
         else:
-            raw_pattern = query.replace(
-                " ", r".*[\s\.\+\-_()\[\]]" 
-            )
+            raw_pattern = query.replace(" ", r".*[\s\.\+\-_()\[\]]")
 
         try:
             regex = re.compile(raw_pattern, flags=re.IGNORECASE)
@@ -223,8 +222,8 @@ async def get_search_results(
 async def get_bad_files(query, file_type=None):
     query = query.strip()
     if not query:
-        raw_pattern = '.'
-    elif ' ' not in query:
+        raw_pattern = "."
+    elif " " not in query:
         raw_pattern = r"(\b|[\.\+\-_])" + query + r"(\b|[\.\+\-_])"
     else:
         raw_pattern = query.replace(" ", r".*[\s\.\+\-_()]")
@@ -233,15 +232,15 @@ async def get_bad_files(query, file_type=None):
     except:
         return []
     if USE_CAPTION_FILTER:
-        filter = {'$or': [{'file_name': regex}, {'caption': regex}]}
+        filter = {"$or": [{"file_name": regex}, {"caption": regex}]}
     else:
-        filter = {'file_name': regex}
+        filter = {"file_name": regex}
     if file_type:
-        filter['file_type'] = file_type
-    cursor1 = Media.find(filter).sort('$natural', -1)
+        filter["file_type"] = file_type
+    cursor1 = Media.find(filter).sort("$natural", -1)
     files1 = await cursor1.to_list(length=(await Media.count_documents(filter)))
     if MULTIPLE_DB:
-        cursor2 = Media2.find(filter).sort('$natural', -1)
+        cursor2 = Media2.find(filter).sort("$natural", -1)
         files2 = await cursor2.to_list(length=(await Media2.count_documents(filter)))
         files = files1 + files2
     else:

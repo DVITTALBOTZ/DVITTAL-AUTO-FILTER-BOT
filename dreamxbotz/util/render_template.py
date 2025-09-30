@@ -1,14 +1,16 @@
-#Thanks @dreamxbotz for helping in this journey 
+# Thanks @dreamxbotz for helping in this journey
 
-import jinja2
-from info import *
-from dreamxbotz.Bot import dreamxbotz
-from dreamxbotz.util.human_readable import humanbytes
-from dreamxbotz.util.file_properties import get_file_ids
-from dreamxbotz.server.exceptions import InvalidHash
-import urllib.parse
 import logging
+import urllib.parse
+
 import aiohttp
+import jinja2
+
+from dreamxbotz.Bot import dreamxbotz
+from dreamxbotz.server.exceptions import InvalidHash
+from dreamxbotz.util.file_properties import get_file_ids
+from dreamxbotz.util.human_readable import humanbytes
+from info import *
 
 
 async def render_page(id, secure_hash, src=None):
