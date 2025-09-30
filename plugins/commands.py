@@ -80,18 +80,30 @@ async def start(client, message):
 
         ist_timezone = pytz.timezone("Asia/Kolkata")
         key = (
-            "third_time_verified" if await db.user_verified(user_id)
-            else "second_time_verified" if await db.is_user_verified(user_id)
-            else "last_verified"
+            "third_time_verified"
+            if await db.user_verified(user_id)
+            else (
+                "second_time_verified"
+                if await db.is_user_verified(user_id)
+                else "last_verified"
+            )
         )
         current_time = datetime.now(tz=ist_timezone)
         await db.update_notcopy_user(user_id, {key: current_time})
         await db.update_verify_id_info(user_id, verify_id, {"verified": True})
-        num = 3 if key == "third_time_verified" else 2 if key == "second_time_verified" else 1
+        num = (
+            3
+            if key == "third_time_verified"
+            else 2 if key == "second_time_verified" else 1
+        )
         msg = (
-            script.THIRDT_VERIFY_COMPLETE_TEXT if key == "third_time_verified"
-            else script.SECOND_VERIFY_COMPLETE_TEXT if key == "second_time_verified"
-            else script.VERIFY_COMPLETE_TEXT
+            script.THIRDT_VERIFY_COMPLETE_TEXT
+            if key == "third_time_verified"
+            else (
+                script.SECOND_VERIFY_COMPLETE_TEXT
+                if key == "second_time_verified"
+                else script.VERIFY_COMPLETE_TEXT
+            )
         )
         verifiedfiles = (
             f"https://telegram.me/{temp.U_NAME}?start=allfiles_{grp_id}_{file_id}"
@@ -126,9 +138,15 @@ async def start(client, message):
     # Handle group/supergroup start
     if message.chat.type in [enums.ChatType.GROUP, enums.ChatType.SUPERGROUP]:
         buttons = [
-            [InlineKeyboardButton("•  Bᴀᴄᴋ Uᴘ Cʜᴀɴɴᴇʟ  •", url="https://t.me/+pCz5eoun5Zk5YzRl")],
             [
-                InlineKeyboardButton("• Mᴀɪɴ Gʀᴏᴜᴘ •", url="https://t.me/Sandalwood_Kannada_Group"),
+                InlineKeyboardButton(
+                    "•  Bᴀᴄᴋ Uᴘ Cʜᴀɴɴᴇʟ  •", url="https://t.me/+pCz5eoun5Zk5YzRl"
+                )
+            ],
+            [
+                InlineKeyboardButton(
+                    "• Mᴀɪɴ Gʀᴏᴜᴘ •", url="https://t.me/Sandalwood_Kannada_Group"
+                ),
                 InlineKeyboardButton("• Mᴀɪɴ Cʜᴀɴɴᴇʟ •", url="https://t.me/KR_PICTURE"),
             ],
         ]
@@ -165,7 +183,11 @@ async def start(client, message):
     # Handle default start (no command param)
     if len(message.command) != 2:
         buttons = [
-            [InlineKeyboardButton("🎥 ಕನ್ನಡ ಹೊಸ ಮೂವೀಗಳು 🎥", url="https://t.me/KR_PICTURE")]
+            [
+                InlineKeyboardButton(
+                    "🎥 ಕನ್ನಡ ಹೊಸ ಮೂವೀಗಳು 🎥", url="https://t.me/KR_PICTURE"
+                )
+            ]
         ]
         reply_markup = InlineKeyboardMarkup(buttons)
         current_time = datetime.now(pytz.timezone(TIMEZONE))
@@ -194,9 +216,15 @@ async def start(client, message):
     # Handle subscribe/error/okay/help
     if message.command[1] in ["subscribe", "error", "okay", "help"]:
         buttons = [
-            [InlineKeyboardButton("•  Bᴀᴄᴋ Uᴘ Cʜᴀɴɴᴇʟ  •", url="https://t.me/+pCz5eoun5Zk5YzRl")],
             [
-                InlineKeyboardButton("• Mᴀɪɴ Gʀᴏᴜᴘ •", url="https://t.me/Sandalwood_Kannada_Group"),
+                InlineKeyboardButton(
+                    "•  Bᴀᴄᴋ Uᴘ Cʜᴀɴɴᴇʟ  •", url="https://t.me/+pCz5eoun5Zk5YzRl"
+                )
+            ],
+            [
+                InlineKeyboardButton(
+                    "• Mᴀɪɴ Gʀᴏᴜᴘ •", url="https://t.me/Sandalwood_Kannada_Group"
+                ),
                 InlineKeyboardButton("• Mᴀɪɴ Cʜᴀɴɴᴇʟ •", url="https://t.me/KR_PICTURE"),
             ],
         ]
@@ -321,21 +349,36 @@ async def start(client, message):
             btn = []
             chat = int(data.split("_", 2)[1])
             settings = await get_settings(chat)
-            fsub_channels = list(dict.fromkeys((settings.get("fsub", []) if settings else []) + AUTH_CHANNELS))
+            fsub_channels = list(
+                dict.fromkeys(
+                    (settings.get("fsub", []) if settings else []) + AUTH_CHANNELS
+                )
+            )
             if fsub_channels:
                 btn += await is_subscribed(client, message.from_user.id, fsub_channels)
             if AUTH_REQ_CHANNELS:
-                btn += await is_req_subscribed(client, message.from_user.id, AUTH_REQ_CHANNELS)
+                btn += await is_req_subscribed(
+                    client, message.from_user.id, AUTH_REQ_CHANNELS
+                )
             if btn:
                 if len(message.command) > 1 and "_" in message.command[1]:
                     kk, file_id = message.command[1].split("_", 1)
-                    btn.append([
-                        InlineKeyboardButton("♻️ ᴛʀʏ ᴀɢᴀɪɴ ♻️", callback_data=f"checksub#{kk}#{file_id}")
-                    ])
+                    btn.append(
+                        [
+                            InlineKeyboardButton(
+                                "♻️ ᴛʀʏ ᴀɢᴀɪɴ ♻️",
+                                callback_data=f"checksub#{kk}#{file_id}",
+                            )
+                        ]
+                    )
                 reply_markup = InlineKeyboardMarkup(btn)
-                photo = random.choice(FSUB_PICS) if FSUB_PICS else "https://graph.org/file/7478ff3eac37f4329c3d8.jpg"
+                photo = (
+                    random.choice(FSUB_PICS)
+                    if FSUB_PICS
+                    else "https://graph.org/file/7478ff3eac37f4329c3d8.jpg"
+                )
                 caption = (
-                    "<b>ನಮಸ್ಕಾರ  🙏  ,\n \nಚಲನಚಿತ್ರವನ್ನು ಪಡೆಯಲು \"JOIN CHANNEL\" ಬಟನ್ ಕ್ಲಿಕ್ ಮಾಡಿ ಮತ್ತು ಚಾನಲ್‌ನಲ್ಲಿ ಸೇರಿಕೊಳ್ಳಿ.\n "
+                    '<b>ನಮಸ್ಕಾರ  🙏  ,\n \nಚಲನಚಿತ್ರವನ್ನು ಪಡೆಯಲು "JOIN CHANNEL" ಬಟನ್ ಕ್ಲಿಕ್ ಮಾಡಿ ಮತ್ತು ಚಾನಲ್‌ನಲ್ಲಿ ಸೇರಿಕೊಳ್ಳಿ.\n '
                     "\n─────── • ◆ • ───────\n \nYou Need to Join My Channel to Receive the Movie file. CLICK BUTTON 👇👇</b>"
                 )
                 await message.reply_photo(
@@ -356,12 +399,18 @@ async def start(client, message):
             grp_id = int(grp_id)
             user_verified = await db.is_user_verified(user_id)
             settings = await get_settings(grp_id)
-            is_second_shortener = await db.use_second_shortener(user_id, settings.get("verify_time", TWO_VERIFY_GAP))
-            is_third_shortener = await db.use_third_shortener(user_id, settings.get("third_verify_time", THREE_VERIFY_GAP))
+            is_second_shortener = await db.use_second_shortener(
+                user_id, settings.get("verify_time", TWO_VERIFY_GAP)
+            )
+            is_third_shortener = await db.use_third_shortener(
+                user_id, settings.get("third_verify_time", THREE_VERIFY_GAP)
+            )
             if settings.get("is_verify", IS_VERIFY) and (
                 not user_verified or is_second_shortener or is_third_shortener
             ):
-                verify_id = "".join(random.choices(string.ascii_uppercase + string.digits, k=7))
+                verify_id = "".join(
+                    random.choices(string.ascii_uppercase + string.digits, k=7)
+                )
                 await db.create_verify_id(user_id, verify_id)
                 temp.VERIFICATIONS[user_id] = grp_id
                 if message.command[1].startswith("allfiles"):
@@ -379,9 +428,13 @@ async def start(client, message):
                         is_third_shortener,
                     )
                 howtodownload = (
-                    settings.get("tutorial_3", TUTORIAL_3) if is_third_shortener
-                    else settings.get("tutorial_2", TUTORIAL_2) if is_second_shortener
-                    else settings.get("tutorial", TUTORIAL)
+                    settings.get("tutorial_3", TUTORIAL_3)
+                    if is_third_shortener
+                    else (
+                        settings.get("tutorial_2", TUTORIAL_2)
+                        if is_second_shortener
+                        else settings.get("tutorial", TUTORIAL)
+                    )
                 )
                 buttons = [
                     [InlineKeyboardButton(text="♻️ ᴄʟɪᴄᴋ ʜᴇʀᴇ ᴛᴏ ᴠᴇʀɪꜰʏ ♻️", url=verify)],
@@ -389,9 +442,13 @@ async def start(client, message):
                 ]
                 reply_markup = InlineKeyboardMarkup(buttons)
                 msg = (
-                    script.THIRDT_VERIFICATION_TEXT if await db.user_verified(user_id)
-                    else script.SECOND_VERIFICATION_TEXT if is_second_shortener
-                    else script.VERIFICATION_TEXT
+                    script.THIRDT_VERIFICATION_TEXT
+                    if await db.user_verified(user_id)
+                    else (
+                        script.SECOND_VERIFICATION_TEXT
+                        if is_second_shortener
+                        else script.VERIFICATION_TEXT
+                    )
                 )
                 n = await m.reply_text(
                     text=msg.format(message.from_user.mention),
@@ -436,22 +493,55 @@ async def start(client, message):
                 # Button logic
                 if STREAM_MODE and not PREMIUM_STREAM_MODE:
                     btn = [
-                        [InlineKeyboardButton("🚀 ꜰᴀꜱᴛ ᴅᴏᴡɴʟᴏᴀᴅ / ᴡᴀᴛᴄʜ ᴏɴʟɪɴᴇ 🖥️", callback_data=f"generate_stream_link:{file_id}")],
-                        [InlineKeyboardButton("📌 ᴊᴏɪɴ ᴜᴘᴅᴀᴛᴇꜱ ᴄʜᴀɴɴᴇʟ 📌", url=UPDATE_CHNL_LNK)]
+                        [
+                            InlineKeyboardButton(
+                                "🚀 ꜰᴀꜱᴛ ᴅᴏᴡɴʟᴏᴀᴅ / ᴡᴀᴛᴄʜ ᴏɴʟɪɴᴇ 🖥️",
+                                callback_data=f"generate_stream_link:{file_id}",
+                            )
+                        ],
+                        [
+                            InlineKeyboardButton(
+                                "📌 ᴊᴏɪɴ ᴜᴘᴅᴀᴛᴇꜱ ᴄʜᴀɴɴᴇʟ 📌", url=UPDATE_CHNL_LNK
+                            )
+                        ],
                     ]
                 elif STREAM_MODE and PREMIUM_STREAM_MODE:
                     if not await db.has_premium_access(message.from_user.id):
                         btn = [
-                            [InlineKeyboardButton("🚀 ꜰᴀꜱᴛ ᴅᴏᴡɴʟᴏᴀᴅ / ᴡᴀᴛᴄʜ ᴏɴʟɪɴᴇ 🖥️", callback_data=f"prestream")],
-                            [InlineKeyboardButton("📌 ᴊᴏɪɴ ᴜᴘᴅᴀᴛᴇꜱ ᴄʜᴀɴɴᴇʟ 📌", url=UPDATE_CHNL_LNK)]
+                            [
+                                InlineKeyboardButton(
+                                    "🚀 ꜰᴀꜱᴛ ᴅᴏᴡɴʟᴏᴀᴅ / ᴡᴀᴛᴄʜ ᴏɴʟɪɴᴇ 🖥️",
+                                    callback_data=f"prestream",
+                                )
+                            ],
+                            [
+                                InlineKeyboardButton(
+                                    "📌 ᴊᴏɪɴ ᴜᴘᴅᴀᴛᴇꜱ ᴄʜᴀɴɴᴇʟ 📌", url=UPDATE_CHNL_LNK
+                                )
+                            ],
                         ]
                     else:
                         btn = [
-                            [InlineKeyboardButton("🚀 ꜰᴀꜱᴛ ᴅᴏᴡɴʟᴏᴀᴅ / ᴡᴀᴛᴄʜ ᴏɴʟɪɴᴇ 🖥️", callback_data=f"generate_stream_link:{file_id}")],
-                            [InlineKeyboardButton("📌 ᴊᴏɪɴ ᴜᴘᴅᴀᴛᴇꜱ ᴄʜᴀɴɴᴇʟ 📌", url=UPDATE_CHNL_LNK)]
+                            [
+                                InlineKeyboardButton(
+                                    "🚀 ꜰᴀꜱᴛ ᴅᴏᴡɴʟᴏᴀᴅ / ᴡᴀᴛᴄʜ ᴏɴʟɪɴᴇ 🖥️",
+                                    callback_data=f"generate_stream_link:{file_id}",
+                                )
+                            ],
+                            [
+                                InlineKeyboardButton(
+                                    "📌 ᴊᴏɪɴ ᴜᴘᴅᴀᴛᴇꜱ ᴄʜᴀɴɴᴇʟ 📌", url=UPDATE_CHNL_LNK
+                                )
+                            ],
                         ]
                 else:
-                    btn = [[InlineKeyboardButton("📌 ᴊᴏɪɴ ᴜᴘᴅᴀᴛᴇꜱ ᴄʜᴀɴɴᴇʟ 📌", url=UPDATE_CHNL_LNK)]]
+                    btn = [
+                        [
+                            InlineKeyboardButton(
+                                "📌 ᴊᴏɪɴ ᴜᴘᴅᴀᴛᴇꜱ ᴄʜᴀɴɴᴇʟ 📌", url=UPDATE_CHNL_LNK
+                            )
+                        ]
+                    ]
                 msg = await client.send_cached_media(
                     chat_id=message.from_user.id,
                     file_id=file_id,
@@ -463,14 +553,16 @@ async def start(client, message):
             k = await client.send_message(
                 chat_id=message.from_user.id,
                 text=f"<b><u>❗️❗️❗️IMPORTANT❗️️❗️❗️</u></b>\n\n"
-                     f"ᴛʜɪꜱ ᴍᴏᴠɪᴇ ꜰɪʟᴇ/ᴠɪᴅᴇᴏ ᴡɪʟʟ ʙᴇ ᴅᴇʟᴇᴛᴇᴅ ɪɴ <b><u><code>{get_time(DELETE_TIME)}</code></u> 🫥 <i></b>"
-                     "(ᴅᴜᴇ ᴛᴏ ᴄᴏᴘʏʀɪɢʜᴛ ɪꜱꜱᴜᴇꜱ)</i>.\n\n"
-                     "<b><i>ᴘʟᴇᴀꜱᴇ ꜰᴏʀᴡᴀʀᴅ ᴛʜɪꜱ ꜰɪʟᴇ ᴛᴏ ꜱᴏᴍᴇᴡʜᴇʀᴇ ᴇʟꜱᴇ ᴀɴᴅ ꜱᴛᴀʀᴛ ᴅᴏᴡɴʟᴏᴀᴅɪɴɢ ᴛʜᴇʀᴇ</i></b>",
+                f"ᴛʜɪꜱ ᴍᴏᴠɪᴇ ꜰɪʟᴇ/ᴠɪᴅᴇᴏ ᴡɪʟʟ ʙᴇ ᴅᴇʟᴇᴛᴇᴅ ɪɴ <b><u><code>{get_time(DELETE_TIME)}</code></u> 🫥 <i></b>"
+                "(ᴅᴜᴇ ᴛᴏ ᴄᴏᴘʏʀɪɢʜᴛ ɪꜱꜱᴜᴇꜱ)</i>.\n\n"
+                "<b><i>ᴘʟᴇᴀꜱᴇ ꜰᴏʀᴡᴀʀᴅ ᴛʜɪꜱ ꜰɪʟᴇ ᴛᴏ ꜱᴏᴍᴇᴡʜᴇʀᴇ ᴇʟꜱᴇ ᴀɴᴅ ꜱᴛᴀʀᴛ ᴅᴏᴡɴʟᴏᴀᴅɪɴɢ ᴛʜᴇʀᴇ</i></b>",
             )
             await asyncio.sleep(DELETE_TIME)
             for x in filesarr:
                 await x.delete()
-            await k.edit_text("<b>ʏᴏᴜʀ ᴀʟʟ ᴠɪᴅᴇᴏꜱ/ꜰɪʟᴇꜱ ᴀʀᴇ ᴅᴇʟᴇᴛᴇᴅ ꜱᴜᴄᴄᴇꜱꜱꜰᴜʟʟʏ !\nᴋɪɴᴅʟʏ ꜱᴇᴀʀᴄʜ ᴀɢᴀɪɴ</b>")
+            await k.edit_text(
+                "<b>ʏᴏᴜʀ ᴀʟʟ ᴠɪᴅᴇᴏꜱ/ꜰɪʟᴇꜱ ᴀʀᴇ ᴅᴇʟᴇᴛᴇᴅ ꜱᴜᴄᴄᴇꜱꜱꜰᴜʟʟʏ !\nᴋɪɴᴅʟʏ ꜱᴇᴀʀᴄʜ ᴀɢᴀɪɴ</b>"
+            )
             return
         except Exception as e:
             logger.exception(e)
@@ -511,22 +603,46 @@ async def start(client, message):
     # Button logic
     if STREAM_MODE and not PREMIUM_STREAM_MODE:
         btn = [
-            [InlineKeyboardButton("🚀 ꜰᴀꜱᴛ ᴅᴏᴡɴʟᴏᴀᴅ / ᴡᴀᴛᴄʜ ᴏɴʟɪɴᴇ 🖥️", callback_data=f"generate_stream_link:{file_id}")],
+            [
+                InlineKeyboardButton(
+                    "🚀 ꜰᴀꜱᴛ ᴅᴏᴡɴʟᴏᴀᴅ / ᴡᴀᴛᴄʜ ᴏɴʟɪɴᴇ 🖥️",
+                    callback_data=f"generate_stream_link:{file_id}",
+                )
+            ],
             [InlineKeyboardButton("📌 ᴊᴏɪɴ ᴜᴘᴅᴀᴛᴇꜱ ᴄʜᴀɴɴᴇʟ 📌", url=UPDATE_CHNL_LNK)],
         ]
     elif STREAM_MODE and PREMIUM_STREAM_MODE:
         if not await db.has_premium_access(message.from_user.id):
             btn = [
-                [InlineKeyboardButton("🚀 ꜰᴀꜱᴛ ᴅᴏᴡɴʟᴏᴀᴅ / ᴡᴀᴛᴄʜ ᴏɴʟɪɴᴇ 🖥️", callback_data=f"prestream")],
-                [InlineKeyboardButton("📌 ᴊᴏɪɴ ᴜᴘᴅᴀᴛᴇꜱ ᴄʜᴀɴɴᴇʟ 📌", url=UPDATE_CHNL_LNK)],
+                [
+                    InlineKeyboardButton(
+                        "🚀 ꜰᴀꜱᴛ ᴅᴏᴡɴʟᴏᴀᴅ / ᴡᴀᴛᴄʜ ᴏɴʟɪɴᴇ 🖥️", callback_data=f"prestream"
+                    )
+                ],
+                [
+                    InlineKeyboardButton(
+                        "📌 ᴊᴏɪɴ ᴜᴘᴅᴀᴛᴇꜱ ᴄʜᴀɴɴᴇʟ 📌", url=UPDATE_CHNL_LNK
+                    )
+                ],
             ]
         else:
             btn = [
-                [InlineKeyboardButton("🚀 ꜰᴀꜱᴛ ᴅᴏᴡɴʟᴏᴀᴅ / ᴡᴀᴛᴄʜ ᴏɴʟɪɴᴇ 🖥️", callback_data=f"generate_stream_link:{file_id}")],
-                [InlineKeyboardButton("📌 ᴊᴏɪɴ ᴜᴘᴅᴀᴛᴇꜱ ᴄʜᴀɴɴᴇʟ 📌", url=UPDATE_CHNL_LNK)],
+                [
+                    InlineKeyboardButton(
+                        "🚀 ꜰᴀꜱᴛ ᴅᴏᴡɴʟᴏᴀᴅ / ᴡᴀᴛᴄʜ ᴏɴʟɪɴᴇ 🖥️",
+                        callback_data=f"generate_stream_link:{file_id}",
+                    )
+                ],
+                [
+                    InlineKeyboardButton(
+                        "📌 ᴊᴏɪɴ ᴜᴘᴅᴀᴛᴇꜱ ᴄʜᴀɴɴᴇʟ 📌", url=UPDATE_CHNL_LNK
+                    )
+                ],
             ]
     else:
-        btn = [[InlineKeyboardButton("📌 ᴊᴏɪɴ ᴜᴘᴅᴀᴛᴇꜱ ᴄʜᴀɴɴᴇʟ 📌", url=UPDATE_CHNL_LNK)]]
+        btn = [
+            [InlineKeyboardButton("📌 ᴊᴏɪɴ ᴜᴘᴅᴀᴛᴇꜱ ᴄʜᴀɴɴᴇʟ 📌", url=UPDATE_CHNL_LNK)]
+        ]
     msg = await client.send_cached_media(
         chat_id=message.from_user.id,
         file_id=file_id,
