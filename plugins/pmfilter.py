@@ -1542,16 +1542,28 @@ async def auto_filter(client, msg, spoll=False):
 
         # Early exit for commands or short messages
         if not spoll:
-            if getattr(message, 'text', '').startswith("/"):
+            if getattr(message, "text", "").startswith("/"):
                 return
-            if re.findall(r"((^\/|^,|^!|^\.|^[\U0001F600-\U000E007F]).*)", message.text):
+            if re.findall(
+                r"((^\/|^,|^!|^\.|^[\U0001F600-\U000E007F]).*)", message.text
+            ):
                 return
             if len(message.text) < 100:
                 search = message.text.lower()
                 m = await message.reply_text(
                     f"**🔎 sᴇᴀʀᴄʜɪɴɢ** `{search}`", reply_to_message_id=message.id
                 )
-                removes = {"in", "upload", "series", "full", "horror", "thriller", "mystery", "print", "file"}
+                removes = {
+                    "in",
+                    "upload",
+                    "series",
+                    "full",
+                    "horror",
+                    "thriller",
+                    "mystery",
+                    "print",
+                    "file",
+                }
                 search = " ".join(x for x in search.split(" ") if x not in removes)
                 search = re.sub(
                     r"\b(pl(i|e)*?(s|z+|ease|se|ese|(e+)s(e)?)|((send|snd|giv(e)?|gib)(\sme)?)|movie(s)?|new|latest|bro|bruh|broh|helo|that|find|dubbed|link|venum|iruka|pannunga|pannungga|anuppunga|anupunga|anuppungga|anupungga|film|undo|kitti|kitty|tharu|kittumo|kittum|movie|any(one)|with\ssubtitle(s)?)",
@@ -1559,15 +1571,28 @@ async def auto_filter(client, msg, spoll=False):
                     search,
                     flags=re.IGNORECASE,
                 )
-                search = re.sub(r"\s+", " ", search).strip().replace("-", " ").replace(":", "")
-                files, offset, total_results = await get_search_results(message.chat.id, search, offset=0, filter=True)
+                search = (
+                    re.sub(r"\s+", " ", search)
+                    .strip()
+                    .replace("-", " ")
+                    .replace(":", "")
+                )
+                files, offset, total_results = await get_search_results(
+                    message.chat.id, search, offset=0, filter=True
+                )
                 settings = await get_settings(message.chat.id)
                 if not files:
                     if settings.get("spell_check"):
-                        ai_sts = await m.edit("🤖 ᴘʟᴇᴀꜱᴇ ᴡᴀɪᴛ, ᴀɪ ɪꜱ ᴄʜᴇᴄᴋɪɴɢ ʏᴏᴜʀ ꜱᴘᴇʟʟɪɴɢ...")
-                        is_misspelled = await ai_spell_check(chat_id=message.chat.id, wrong_name=search)
+                        ai_sts = await m.edit(
+                            "🤖 ᴘʟᴇᴀꜱᴇ ᴡᴀɪᴛ, ᴀɪ ɪꜱ ᴄʜᴇᴄᴋɪɴɢ ʏᴏᴜʀ ꜱᴘᴇʟʟɪɴɢ..."
+                        )
+                        is_misspelled = await ai_spell_check(
+                            chat_id=message.chat.id, wrong_name=search
+                        )
                         if is_misspelled:
-                            await ai_sts.edit(f"✅ Aɪ Sᴜɢɢᴇsᴛᴇᴅ: <code>{is_misspelled}</code>\n🔍 Searching for it...")
+                            await ai_sts.edit(
+                                f"✅ Aɪ Sᴜɢɢᴇsᴛᴇᴅ: <code>{is_misspelled}</code>\n🔍 Searching for it..."
+                            )
                             await ai_sts.delete()
                             return await auto_filter(client, message)
                         await ai_sts.delete()
@@ -1593,23 +1618,51 @@ async def auto_filter(client, msg, spoll=False):
         btn = []
         if settings.get("button"):
             btn = [
-                [InlineKeyboardButton(f"🔗 {get_size(file.file_size)} ≽ {clean_filename(file.file_name)}", callback_data=f"file#{file.file_id}")]
+                [
+                    InlineKeyboardButton(
+                        f"🔗 {get_size(file.file_size)} ≽ {clean_filename(file.file_name)}",
+                        callback_data=f"file#{file.file_id}",
+                    )
+                ]
                 for file in files
             ]
-            btn.insert(0, [InlineKeyboardButton("•  Bᴀᴄᴋ Uᴘ Cʜᴀɴɴᴇʟ  •", url="https://t.me/KR_PICTURE")])
+            btn.insert(
+                0,
+                [
+                    InlineKeyboardButton(
+                        "•  Bᴀᴄᴋ Uᴘ Cʜᴀɴɴᴇʟ  •", url="https://t.me/KR_PICTURE"
+                    )
+                ],
+            )
 
         if offset != "":
             req = getattr(message.from_user, "id", 0)
-            page_count = math.ceil(int(total_results) / int(settings.get("max_btn", MAX_B_TN)))
-            btn.append([
-                InlineKeyboardButton("ᴘᴀɢᴇ", callback_data="pages"),
-                InlineKeyboardButton(f"1/{page_count}", callback_data="pages"),
-                InlineKeyboardButton("ɴᴇxᴛ ⋟", callback_data=f"next_{req}_{key}_{offset}")
-            ])
+            page_count = math.ceil(
+                int(total_results) / int(settings.get("max_btn", MAX_B_TN))
+            )
+            btn.append(
+                [
+                    InlineKeyboardButton("ᴘᴀɢᴇ", callback_data="pages"),
+                    InlineKeyboardButton(f"1/{page_count}", callback_data="pages"),
+                    InlineKeyboardButton(
+                        "ɴᴇxᴛ ⋟", callback_data=f"next_{req}_{key}_{offset}"
+                    ),
+                ]
+            )
         else:
-            btn.append([InlineKeyboardButton("🎥 ಕನ್ನಡ ಹೊಸ ಮೂವೀಗಳು 🎥", url="https://t.me/+khU5cXKGQNkzMjJl")])
+            btn.append(
+                [
+                    InlineKeyboardButton(
+                        "🎥 ಕನ್ನಡ ಹೊಸ ಮೂವೀಗಳು 🎥", url="https://t.me/+khU5cXKGQNkzMjJl"
+                    )
+                ]
+            )
 
-        imdb = await get_poster(search, file=files[0].file_name) if settings.get("imdb") else None
+        imdb = (
+            await get_poster(search, file=files[0].file_name)
+            if settings.get("imdb")
+            else None
+        )
 
         # Template and caption generation
         TEMPLATE = settings.get("template", getattr(script, "IMDB_TEMPLATE_TXT", ""))
@@ -1627,7 +1680,9 @@ async def auto_filter(client, msg, spoll=False):
                     cap += f"<b>\n{idx}. <a href='https://telegram.me/{temp.U_NAME}?start=file_{message.chat.id}_{file.file_id}'>[{get_size(file.file_size)}] {clean_filename(file.file_name)}\n</a></b>"
 
         # Reply logic
-        reply_func = message.reply_photo if imdb and imdb.get("poster") else message.reply_text
+        reply_func = (
+            message.reply_photo if imdb and imdb.get("poster") else message.reply_text
+        )
         try:
             if reply_func == message.reply_photo:
                 try:
