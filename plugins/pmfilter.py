@@ -1784,9 +1784,11 @@ async def advantage_spell_chok(client, message):
     if not movies:
         google = search.replace(" ", "+")
         button = [
-            [InlineKeyboardButton(
-                "🎥 ಕನ್ನಡ ಹೊಸ ಮೂವೀಗಳು 🎥", url="https://t.me/KR_PICTURE"
-            )]
+            [
+                InlineKeyboardButton(
+                    "🎥 ಕನ್ನಡ ಹೊಸ ಮೂವೀಗಳು 🎥", url="https://t.me/KR_PICTURE"
+                )
+            ]
         ]
         k = await message.reply_text(
             text=script.I_CUDNT.format(search),
