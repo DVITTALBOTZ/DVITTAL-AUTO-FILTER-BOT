@@ -39,7 +39,9 @@ PICS = environ.get("PICS", "https://envs.sh/t3L.jpg").split()
 NOR_IMG = environ.get("NOR_IMG", "https://graph.org/file/e20b5fdaf217252964202.jpg")
 MELCOW_PHOTO = environ.get("MELCOW_PHOTO", "https://envs.sh/t3L.jpg")
 SPELL_IMG = environ.get("SPELL_IMG", "https://envs.sh/P9Q.jpg")
-SUBSCRIPTION = environ.get("SUBSCRIPTION", "https://graph.org/file/242b7f1b52743938d81f1.jpg")
+SUBSCRIPTION = environ.get(
+    "SUBSCRIPTION", "https://graph.org/file/242b7f1b52743938d81f1.jpg"
+)
 FSUB_PICS = environ.get("FSUB_PICS", "https://envs.sh/bBD.jpg").split()
 
 # ============================
@@ -94,7 +96,9 @@ DATABASE_URI2 = environ.get("DATABASE_URI2", "")
 # ============================
 # Movie Notification & Update Settings
 # ============================
-MOVIE_UPDATE_NOTIFICATION = is_enabled(environ.get("MOVIE_UPDATE_NOTIFICATION", False), False)
+MOVIE_UPDATE_NOTIFICATION = is_enabled(
+    environ.get("MOVIE_UPDATE_NOTIFICATION", False), False
+)
 MOVIE_UPDATE_CHANNEL = int(environ.get("MOVIE_UPDATE_CHANNEL", "-100"))
 DREAMXBOTZ_IMAGE_FETCH = is_enabled(environ.get("DREAMXBOTZ_IMAGE_FETCH", False), False)
 LINK_PREVIEW = is_enabled(environ.get("LINK_PREVIEW", False), False)
@@ -109,7 +113,9 @@ LANDSCAPE_POSTER = is_enabled(environ.get("LANDSCAPE_POSTER", False), False)
 IS_VERIFY = is_enabled(environ.get("IS_VERIFY", False), False)
 LOG_VR_CHANNEL = int(environ.get("LOG_VR_CHANNEL", "-1001693006436"))
 LOG_API_CHANNEL = int(environ.get("LOG_API_CHANNEL", "-1001693006436"))
-VERIFY_IMG = environ.get("VERIFY_IMG", "https://telegra.ph/file/9ecc5d6e4df5b83424896.jpg")
+VERIFY_IMG = environ.get(
+    "VERIFY_IMG", "https://telegra.ph/file/9ecc5d6e4df5b83424896.jpg"
+)
 
 TUTORIAL = environ.get("TUTORIAL", "https://t.me/how_to_opan_linkz/6")
 TUTORIAL_2 = environ.get("TUTORIAL_2", "https://t.me/how_to_opan_linkz/6")
@@ -117,9 +123,13 @@ TUTORIAL_3 = environ.get("TUTORIAL_3", "https://t.me/how_to_opan_linkz/6")
 
 SHORTENER_API = environ.get("SHORTENER_API", "ab42d0b5656f5c774f800dacb6739342b6f094aa")
 SHORTENER_WEBSITE = environ.get("SHORTENER_WEBSITE", "vplink.in")
-SHORTENER_API2 = environ.get("SHORTENER_API2", "ab42d0b5656f5c774f800dacb6739342b6f094aa")
+SHORTENER_API2 = environ.get(
+    "SHORTENER_API2", "ab42d0b5656f5c774f800dacb6739342b6f094aa"
+)
 SHORTENER_WEBSITE2 = environ.get("SHORTENER_WEBSITE2", "vplink.in")
-SHORTENER_API3 = environ.get("SHORTENER_API3", "ab42d0b5656f5c774f800dacb6739342b6f094aa")
+SHORTENER_API3 = environ.get(
+    "SHORTENER_API3", "ab42d0b5656f5c774f800dacb6739342b6f094aa"
+)
 SHORTENER_WEBSITE3 = environ.get("SHORTENER_WEBSITE3", "vplink.in")
 
 TWO_VERIFY_GAP = int(environ.get("TWO_VERIFY_GAP", "1200"))
@@ -180,11 +190,15 @@ PREMIUM_STREAM_MODE = is_enabled(environ.get("PREMIUM_STREAM_MODE", False), Fals
 AUTH_REQ_CHANNELS = [
     int(ch) for ch in auth_req_channels.split() if ch and id_pattern.match(ch)
 ]
-AUTH_CHANNELS = [
-    int(ch) for ch in auth_channels.split() if ch and id_pattern.match(ch)
-]
-REQST_CHANNEL = int(reqst_channel) if reqst_channel and id_pattern.match(reqst_channel) else None
-SUPPORT_CHAT_ID = int(support_chat_id) if support_chat_id and id_pattern.match(support_chat_id) else None
+AUTH_CHANNELS = [int(ch) for ch in auth_channels.split() if ch and id_pattern.match(ch)]
+REQST_CHANNEL = (
+    int(reqst_channel) if reqst_channel and id_pattern.match(reqst_channel) else None
+)
+SUPPORT_CHAT_ID = (
+    int(support_chat_id)
+    if support_chat_id and id_pattern.match(support_chat_id)
+    else None
+)
 LANGUAGES = {
     "ᴍᴀʟᴀʏᴀʟᴀᴍ": "mal",
     "ᴛᴀᴍɪʟ": "tam",
@@ -256,8 +270,33 @@ PING_INTERVAL = int(environ.get("PING_INTERVAL", "1200"))
 # Reactions Configuration
 # ============================
 REACTIONS = [
-    "🤝", "😇", "🤗", "😍", "👍", "🎅", "😐", "🥰", "🤩", "😱", "🤣", "😘", "👏", "😛", "😈", "🎉",
-    "⚡️", "🫡", "🤓", "😎", "🏆", "🔥", "🤭", "🌚", "🆒", "👻", "😁",
+    "🤝",
+    "😇",
+    "🤗",
+    "😍",
+    "👍",
+    "🎅",
+    "😐",
+    "🥰",
+    "🤩",
+    "😱",
+    "🤣",
+    "😘",
+    "👏",
+    "😛",
+    "😈",
+    "🎉",
+    "⚡️",
+    "🫡",
+    "🤓",
+    "😎",
+    "🏆",
+    "🔥",
+    "🤭",
+    "🌚",
+    "🆒",
+    "👻",
+    "😁",
 ]
 
 # ============================
@@ -293,25 +332,31 @@ Bot_cmds = {
 LOG_STR = "Current Customized Configurations are:-\n"
 LOG_STR += (
     "IMDB Results are enabled, Bot will be showing imdb details for your queries.\n"
-    if IMDB else "IMDB Results are disabled.\n"
+    if IMDB
+    else "IMDB Results are disabled.\n"
 )
 LOG_STR += (
     "P_TTI_SHOW_OFF found, Users will be redirected to send /start to Bot PM instead of sending file directly.\n"
-    if P_TTI_SHOW_OFF else "P_TTI_SHOW_OFF is disabled, files will be sent in PM instead of starting the bot.\n"
+    if P_TTI_SHOW_OFF
+    else "P_TTI_SHOW_OFF is disabled, files will be sent in PM instead of starting the bot.\n"
 )
 LOG_STR += (
     "BUTTON_MODE is found, filename and file size will be shown in a single button instead of two separate buttons.\n"
-    if BUTTON_MODE else "BUTTON_MODE is disabled, filename and file size will be shown as different buttons.\n"
+    if BUTTON_MODE
+    else "BUTTON_MODE is disabled, filename and file size will be shown as different buttons.\n"
 )
 LOG_STR += (
     f"CUSTOM_FILE_CAPTION enabled with value {CUSTOM_FILE_CAPTION}, your files will be sent along with this customized caption.\n"
-    if CUSTOM_FILE_CAPTION else "No CUSTOM_FILE_CAPTION Found, Default captions of file will be used.\n"
+    if CUSTOM_FILE_CAPTION
+    else "No CUSTOM_FILE_CAPTION Found, Default captions of file will be used.\n"
 )
 LOG_STR += (
     "Long IMDB storyline enabled.\n"
-    if LONG_IMDB_DESCRIPTION else "LONG_IMDB_DESCRIPTION is disabled, Plot will be shorter.\n"
+    if LONG_IMDB_DESCRIPTION
+    else "LONG_IMDB_DESCRIPTION is disabled, Plot will be shorter.\n"
 )
 LOG_STR += (
     "Spell Check Mode is enabled, bot will be suggesting related movies if movie name is misspelled.\n"
-    if SPELL_CHECK_REPLY else "Spell Check Mode is disabled.\n"
+    if SPELL_CHECK_REPLY
+    else "Spell Check Mode is disabled.\n"
 )
