@@ -438,34 +438,24 @@ async def advantage_spoll_choker(bot, query):
         return await query.answer(
             script.ALRT_TXT.format(query.from_user.first_name), show_alert=True
         )
+
     movies = await get_poster(id, id=True)
     movie = movies.get("title")
     movie = re.sub(r"[:-]", " ", movie)
     movie = re.sub(r"\s+", " ", movie).strip()
+
     await query.answer(script.TOP_ALRT_MSG)
+
     files, offset, total_results = await get_search_results(
         query.message.chat.id, movie, offset=0, filter=True
     )
+
     if files:
         k = (movie, files, offset, total_results)
         await auto_filter(bot, query, k)
     else:
-        reqstr1 = query.from_user.id if query.from_user else 0
-        reqstr = await bot.get_users(reqstr1)
-        if NO_RESULTS_MSG:
-            try:
-                await bot.send_message(
-                    chat_id=BIN_CHANNEL,
-                    text=script.NORSLTS.format(reqstr.id, reqstr.mention, movie),
-                )
-            except Exception as e:
-                print(f"Error In Spol - {e}   Make Sure Bot Admin BIN CHANNEL")
-        btn = InlineKeyboardMarkup(
-            [[InlineKeyboardButton("🔰Cʟɪᴄᴋ ʜᴇʀᴇ & ʀᴇǫᴜᴇsᴛ ᴛᴏ ᴀᴅᴍɪɴ🔰", url='https://t.me/Sandalwood_Kannada_Group")]]
-        )
-        k = await query.message.edit(script.MVE_NT_FND, reply_markup=btn)
-        await asyncio.sleep(10)
-        await k.delete()
+        # 🚫 Just ignore silently (do nothing)
+        return
 
 
 @Client.on_callback_query()
