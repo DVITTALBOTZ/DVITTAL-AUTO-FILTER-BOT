@@ -1,8 +1,8 @@
 class script(object):
     START_TXT = """<b>​​​Hello {} , \nI am an AutoFilter Bot Made for Team KR PICTURE.\n \nJoin My Updates Channel For More Details.</b>"""
 
-    GSTART_TXT = START_TXT 
-    
+    GSTART_TXT = START_TXT
+
     HELP_TXT = """<b>
     
 ✨ ʜᴏᴡ ᴛᴏ ʀᴇǫᴜᴇꜱᴛ ᴅʀᴀᴍᴀꜱ & ᴍᴏᴠɪᴇꜱ ✨  
