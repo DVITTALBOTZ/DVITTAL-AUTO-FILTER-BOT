@@ -1381,3 +1381,84 @@ async def reset_trial(client, message):
         await message.reply_text(message_text)
     except Exception as e:
         await message.reply_text(f"An error occurred: {e}")
+
+@Client.on_message(filters.command('remove_fsub'))
+async def remove_fsub(client, message):
+    try:
+        userid = message.from_user.id if message.from_user else None
+        if not userid:
+            return await message.reply("<b>You are Anonymous admin you can't use this command !</b>")
+
+        if message.chat.type not in [enums.ChatType.GROUP, enums.ChatType.SUPERGROUP]:
+            return await message.reply_text("This command can only be used in groups.")
+
+        grp_id = message.chat.id
+        title = message.chat.title
+
+        if not await is_check_admin(client, grp_id, userid):
+            return await message.reply_text(script.NT_ADMIN_ALRT_TXT)
+
+        args = message.text.split(maxsplit=1)
+        if len(args) < 2:
+            return await message.reply_text(
+                "Usage:\n"
+                "/remove_fsub all → Remove all fsub channels\n"
+                "/remove_fsub id1 id2 ... → Remove specific channel IDs"
+            )
+
+        option = args[1].strip()
+
+        # ✅ Use get_settings instead of get_group_settings
+        settings = await get_settings(grp_id)
+        current_fsubs = settings.get("fsub", []) if settings else []
+
+        if not current_fsubs:
+            return await message.reply_text("No fsub channels are set for this group.")
+
+        # Remove all
+        if option.lower() == "all":
+            await save_group_settings(grp_id, 'fsub', [])
+            await message.reply_text(f"✅ All fsub channels removed for {title}")
+            mention = message.from_user.mention if message.from_user else "Unknown"
+            return await client.send_message(
+                LOG_API_CHANNEL,
+                f"#Fsub_Removed\n\nUser {mention} removed ALL fsub channels for {title}"
+            )
+
+        # Remove specific IDs
+        try:
+            remove_ids = [int(x) for x in option.split()]
+        except ValueError:
+            return await message.reply_text('Make sure all IDs are integers.')
+
+        new_fsubs = [cid for cid in current_fsubs if cid not in remove_ids]
+        if len(new_fsubs) == len(current_fsubs):
+            return await message.reply_text("None of the given IDs were found in current fsub list.")
+
+        await save_group_settings(grp_id, 'fsub', new_fsubs)
+
+        removed_titles = []
+        for cid in remove_ids:
+            try:
+                chat = await client.get_chat(cid)
+                removed_titles.append(f"{chat.title} ({cid})")
+            except:
+                removed_titles.append(f"Unknown ({cid})")
+
+        await message.reply_text(
+            f"✅ Removed {len(remove_ids)} fsub channel(s) from {title}:\n"
+            + "\n".join(removed_titles)
+        )
+
+        mention = message.from_user.mention if message.from_user else "Unknown"
+        await client.send_message(
+            LOG_API_CHANNEL,
+            f"#Fsub_Channel_Removed\n\n"
+            f"User - {mention} removed fsub channel(s) from {title}:\n"
+            + '\n'.join(removed_titles)
+        )
+
+    except Exception as e:
+        err_text = f"⚠️ Error in remove_fsub :\n{e}"
+        logger.error(err_text)
+        await client.send_message(LOG_API_CHANNEL, err_text)
