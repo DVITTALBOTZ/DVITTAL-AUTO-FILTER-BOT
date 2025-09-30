@@ -1827,23 +1827,26 @@ async def ai_spell_check(chat_id, wrong_name):
 
     movie_list = await search_movie(wrong_name)
     if not movie_list:
-        return
+        return  # 🚫 No response at all
+
     for _ in range(5):
         closest_match = process.extractOne(wrong_name, movie_list)
         if not closest_match or closest_match[1] <= 80:
-            return
+            return  # 🚫 Ignore silently
+
         movie = closest_match[0]
         files, _, _ = await get_search_results(chat_id=chat_id, query=movie)
         if files:
-            return movie
-        movie_list.remove(movie)
+            return movie  # ✅ Found, return movie name
 
+        movie_list.remove(movie)
 
 async def advantage_spell_chok(client, message):
     mv_id = message.id
     search = message.text
     chat_id = message.chat.id
     settings = await get_settings(chat_id)
+
     query = re.sub(
         r"\b(pl(i|e)*?(s|z+|ease|se|ese|(e+)s(e)?)|((send|snd|giv(e)?|gib)(\sme)?)|movie(s)?|new|latest|br((o|u)h?)*|^h(e|a)?(l)*(o)*|mal(ayalam)?|t(h)?amil|file|that|find|und(o)*|kit(t(i|y)?)?o(w)?|thar(u)?(o)*w?|kittum(o)*|aya(k)*(um(o)*)?|full\smovie|any(one)|with\ssubtitle(s)?)",
         "",
@@ -1851,48 +1854,29 @@ async def advantage_spell_chok(client, message):
         flags=re.IGNORECASE,
     )
     query = query.strip() + " movie"
+
     try:
         movies = await get_poster(search, bulk=True)
     except:
-        k = await message.reply(script.I_CUDNT.format(message.from_user.mention))
-        await asyncio.sleep(1800)
-        await k.delete()
-        try:
-            await message.delete()
-        except:
-            pass
-        return
+        return  # 🚫 Ignore silently if poster fetch fails
+
     if not movies:
-        google = search.replace(" ", "+")
-        button = [
-            InlineKeyboardButton(
-                text="🎥 ಕನ್ನಡ ಹೊಸ ಮೂವೀಗಳು 🎥", url="https://t.me/KR_PICTURE"
-            )
-        ]
-        k = await message.reply_text(
-            text=script.I_CUDNT.format(search),
-            reply_markup=InlineKeyboardMarkup(button),
-        )
-        await asyncio.sleep(1800)
-        await k.delete()
-        try:
-            await message.delete()
-        except:
-            pass
-        return
+        return  # 🚫 Ignore silently if no movies found
+
     user = message.from_user.id if message.from_user else 0
     buttons = [
         [
             InlineKeyboardButton(
-                text=movie.get("title"), callback_data=f"spol#{movie.movieID}#{user}"
+                text=movie.get("title"),
+                callback_data=f"spol#{movie.movieID}#{user}"
             )
         ]
         for movie in movies
     ]
-
     buttons.append(
         [InlineKeyboardButton(text="🚫 ᴄʟᴏsᴇ 🚫", callback_data="close_data")]
     )
+
     d = await message.reply_text(
         text=script.CUDNT_FND.format(message.from_user.mention),
         reply_markup=InlineKeyboardMarkup(buttons),
