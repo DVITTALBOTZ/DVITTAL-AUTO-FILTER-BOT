@@ -185,9 +185,15 @@ async def start(client, message):
         buttons = [
             [
                 InlineKeyboardButton(
-                    "🎥 ಕನ್ನಡ ಹೊಸ ಮೂವೀಗಳು 🎥", url="https://t.me/KR_PICTURE"
+                    "•  Bᴀᴄᴋ Uᴘ Cʜᴀɴɴᴇʟ  •", url="https://t.me/+pCz5eoun5Zk5YzRl"
                 )
-            ]
+            ],
+            [
+                InlineKeyboardButton(
+                    "• Mᴀɪɴ Gʀᴏᴜᴘ •", url="https://t.me/Sandalwood_Kannada_Group"
+                ),
+                InlineKeyboardButton("• Mᴀɪɴ Cʜᴀɴɴᴇʟ •", url="https://t.me/KR_PICTURE"),
+            ],
         ]
         reply_markup = InlineKeyboardMarkup(buttons)
         current_time = datetime.now(pytz.timezone(TIMEZONE))
