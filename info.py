@@ -34,10 +34,10 @@ CACHE_TIME = int(
     environ.get("CACHE_TIME", 300)
 )  # Cache time in seconds (default: 5 minutes)
 USE_CAPTION_FILTER = bool(
-    environ.get("USE_CAPTION_FILTER", True)
+    environ.get("USE_CAPTION_FILTER", False)
 )  # Use caption filter for search results (default: True)
 INDEX_CAPTION = bool(
-    environ.get("SAVE_CAPTION", True)
+    environ.get("SAVE_CAPTION", False)
 )  # Save caption db when idexing make it False if you dont use USE_CAPTION_FILTER for search results (default: True)
 # Making it false will not save caption in db SO you can save some storage space
 
