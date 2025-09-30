@@ -1822,45 +1822,65 @@ async def auto_filter(client, msg, spoll=False):
 async def ai_spell_check(chat_id, wrong_name):
     async def search_movie(wrong_name):
         search_results = imdb.search_movie(wrong_name)
-        movie_list = [movie["title"] for movie in search_results]
+        movie_list = [movie['title'] for movie in search_results]
         return movie_list
-
     movie_list = await search_movie(wrong_name)
     if not movie_list:
-        return  # 🚫 No response at all
-
+        return
     for _ in range(5):
         closest_match = process.extractOne(wrong_name, movie_list)
         if not closest_match or closest_match[1] <= 80:
-            return  # 🚫 Ignore silently
-
+            return
         movie = closest_match[0]
         files, _, _ = await get_search_results(chat_id=chat_id, query=movie)
         if files:
-            return movie  # ✅ Found, return movie name
-
+            return movie
         movie_list.remove(movie)
 
 
 async def advantage_spell_chok(client, message):
+    mv_id = message.id
     search = message.text
     chat_id = message.chat.id
     settings = await get_settings(chat_id)
-
     query = re.sub(
         r"\b(pl(i|e)*?(s|z+|ease|se|ese|(e+)s(e)?)|((send|snd|giv(e)?|gib)(\sme)?)|movie(s)?|new|latest|br((o|u)h?)*|^h(e|a)?(l)*(o)*|mal(ayalam)?|t(h)?amil|file|that|find|und(o)*|kit(t(i|y)?)?o(w)?|thar(u)?(o)*w?|kittum(o)*|aya(k)*(um(o)*)?|full\smovie|any(one)|with\ssubtitle(s)?)",
-        "",
-        message.text,
-        flags=re.IGNORECASE,
-    )
+        "", message.text, flags=re.IGNORECASE)
     query = query.strip() + " movie"
-
     try:
         movies = await get_poster(search, bulk=True)
     except:
-        return  # ignore on error
-
+        k = await message.reply(script.I_CUDNT.format(message.from_user.mention))
+        await asyncio.sleep(60)
+        await k.delete()
+        try:
+            await message.delete()
+        except:
+            pass
+        return
     if not movies:
-        return  # ignore silently
+        google = search.replace(" ", "+")
+        button = [[InlineKeyboardButton(
+            "🔍 ᴄʜᴇᴄᴋ sᴘᴇʟʟɪɴɢ ᴏɴ ɢᴏᴏɢʟᴇ 🔍", url=f"https://www.google.com/search?q={google}")]]
+        k = await message.reply_text(text=script.I_CUDNT.format(search), reply_markup=InlineKeyboardMarkup(button))
+        await asyncio.sleep(60)
+        await k.delete()
+        try:
+            await message.delete()
+        except:
+            pass
+        return
+    user = message.from_user.id if message.from_user else 0
+    buttons = [
+        [InlineKeyboardButton(text=movie.get('title'), callback_data=f"spol#{movie.movieID}#{user}")
+         ] for movie in movies]
 
-    # 🚫 No more buttons / reply feature here
+    buttons.append([InlineKeyboardButton(
+        text="🚫 ᴄʟᴏsᴇ 🚫", callback_data='close_data')])
+    d = await message.reply_text(text=script.CUDNT_FND.format(message.from_user.mention), reply_markup=InlineKeyboardMarkup(buttons), reply_to_message_id=message.id)
+    await asyncio.sleep(60)
+    await d.delete()
+    try:
+        await message.delete()
+    except:
+        pass
