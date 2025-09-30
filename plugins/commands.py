@@ -1352,7 +1352,7 @@ async def del_msg(client, message):
         "⚠️ Aʀᴇ ʏᴏᴜ sᴜʀᴇ ʏᴏᴜ ᴡᴀɴᴛ ᴛᴏ ᴄʟᴇᴀʀ ᴛʜᴇ ᴜᴘᴅᴀᴛᴇs ᴄʜᴀɴɴᴇʟ ʟɪsᴛ ?\n\n ᴅᴏ ʏᴏᴜ ꜱᴛɪʟʟ ᴡᴀɴᴛ ᴛᴏ ᴄᴏɴᴛɪɴᴜᴇ ?",
         reply_markup=confirm_markup,
     )
-    await asyncio.sleep(60)
+    await asyncio.sleep(DELETE_TIME)
     try:
         await sent_message.delete()
     except Exception as e:
@@ -1559,7 +1559,7 @@ async def set_log(client, message):
         return await message.reply_text("<b>ᴍᴀᴋᴇ sᴜʀᴇ ɪᴅ ɪs ɪɴᴛᴇɢᴇʀ...</b>")
     try:
         t = await client.send_message(chat_id=log, text="<b>ʜᴇʏ ᴡʜᴀᴛ's ᴜᴘ!!</b>")
-        await asyncio.sleep(3)
+        await asyncio.sleep(1)
         await t.delete()
     except Exception as e:
         return await message.reply_text(
@@ -1662,7 +1662,7 @@ async def all_settings(client, message):
     dlt = await message.reply_text(
         text, reply_markup=InlineKeyboardMarkup(btn), disable_web_page_preview=True
     )
-    await asyncio.sleep(300)
+    await asyncio.sleep(DELETE_TIME)
     await dlt.delete()
 
 
