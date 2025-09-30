@@ -35,7 +35,7 @@ async def check_alive(_, message):
     text = await message.reply_text(
         "Yᴏᴜ ᴀʀᴇ ᴠᴇʀʏ ʟᴜᴄᴋʏ 🤞 I ᴀᴍ ᴀʟɪᴠᴇ ❤️\nPʀᴇss /start ᴛᴏ ᴜsᴇ ᴍᴇ!"
     )
-    await asyncio.sleep(60)
+    await asyncio.sleep(1800)
     await sticker.delete()
     await text.delete()
     await message.delete()
