@@ -1736,16 +1736,21 @@ async def ai_spell_check(chat_id, wrong_name):
 
     movie_list = await search_movie(wrong_name)
     if not movie_list:
-        return
+        # No movie found, don't respond
+        return None
+
     for _ in range(5):
         closest_match = process.extractOne(wrong_name, movie_list)
         if not closest_match or closest_match[1] <= 80:
-            return
+            # No close match, don't respond
+            return None
         movie = closest_match[0]
         files, _, _ = await get_search_results(chat_id=chat_id, query=movie)
         if files:
-            return movie
+            return movie  # Movie found, respond normally
         movie_list.remove(movie)
+    # No suitable movie found after 5 tries
+    return None
 
 
 async def advantage_spell_chok(client, message):
@@ -1753,6 +1758,8 @@ async def advantage_spell_chok(client, message):
     search = message.text
     chat_id = message.chat.id
     settings = await get_settings(chat_id)
+
+    # Clean up the search query
     query = re.sub(
         r"\b(pl(i|e)*?(s|z+|ease|se|ese|(e+)s(e)?)|((send|snd|giv(e)?|gib)(\sme)?)|movie(s)?|new|latest|br((o|u)h?)*|^h(e|a)?(l)*(o)*|mal(ayalam)?|t(h)?amil|file|that|find|und(o)*|kit(t(i|y)?)?o(w)?|thar(u)?(o)*w?|kittum(o)*|aya(k)*(um(o)*)?|full\smovie|any(one)|with\ssubtitle(s)?)",
         "",
@@ -1760,38 +1767,40 @@ async def advantage_spell_chok(client, message):
         flags=re.IGNORECASE,
     )
     query = query.strip() + " movie"
+
     try:
         movies = await get_poster(search, bulk=True)
-    except:
+    except Exception:
+        # No movie found, reply with button then delete
         k = await message.reply(script.I_CUDNT.format(message.from_user.mention))
-        await asyncio.sleep(60)
+        await asyncio.sleep(DELETE_TIME)
         await k.delete()
         try:
             await message.delete()
-        except:
+        except Exception:
             pass
         return
+
     if not movies:
         google = search.replace(" ", "+")
         button = [
-            [
-                InlineKeyboardButton(
-                    "🔍 ᴄʜᴇᴄᴋ sᴘᴇʟʟɪɴɢ ᴏɴ ɢᴏᴏɢʟᴇ 🔍",
-                    url=f"https://www.google.com/search?q={google}",
-                )
-            ]
+            [InlineKeyboardButton(
+                "🎥 ಕನ್ನಡ ಹೊಸ ಮೂವೀಗಳು 🎥", url="https://t.me/KR_PICTURE"
+            )]
         ]
         k = await message.reply_text(
             text=script.I_CUDNT.format(search),
             reply_markup=InlineKeyboardMarkup(button),
         )
-        await asyncio.sleep(60)
+        await asyncio.sleep(DELETE_TIME)
         await k.delete()
         try:
             await message.delete()
-        except:
+        except Exception:
             pass
         return
+
+    # Movies found, build buttons
     user = message.from_user.id if message.from_user else 0
     buttons = [
         [
@@ -1801,7 +1810,6 @@ async def advantage_spell_chok(client, message):
         ]
         for movie in movies
     ]
-
     buttons.append(
         [InlineKeyboardButton(text="🚫 ᴄʟᴏsᴇ 🚫", callback_data="close_data")]
     )
@@ -1810,9 +1818,9 @@ async def advantage_spell_chok(client, message):
         reply_markup=InlineKeyboardMarkup(buttons),
         reply_to_message_id=message.id,
     )
-    await asyncio.sleep(60)
+    await asyncio.sleep(DELETE_TIME)
     await d.delete()
     try:
         await message.delete()
-    except:
+    except Exception:
         pass
