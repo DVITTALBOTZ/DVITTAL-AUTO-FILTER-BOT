@@ -507,7 +507,7 @@ async def start(client, message):
                         ],
                         [
                             InlineKeyboardButton(
-                                "📌 ᴊᴏɪɴ ᴜᴘᴅᴀᴛᴇꜱ ᴄʜᴀɴɴᴇʟ 📌", url=UPDATE_CHNL_LNK
+                                "🎥 ಕನ್ನಡ ಹೊಸ ಮೂವೀಗಳು 🎥", url="https://t.me/+khU5cXKGQNkzMjJl"
                             )
                         ],
                     ]
@@ -522,7 +522,7 @@ async def start(client, message):
                             ],
                             [
                                 InlineKeyboardButton(
-                                    "📌 ᴊᴏɪɴ ᴜᴘᴅᴀᴛᴇꜱ ᴄʜᴀɴɴᴇʟ 📌", url=UPDATE_CHNL_LNK
+                                    "🎥 ಕನ್ನಡ ಹೊಸ ಮೂವೀಗಳು 🎥", url="https://t.me/+khU5cXKGQNkzMjJl"
                                 )
                             ],
                         ]
@@ -536,7 +536,7 @@ async def start(client, message):
                             ],
                             [
                                 InlineKeyboardButton(
-                                    "📌 ᴊᴏɪɴ ᴜᴘᴅᴀᴛᴇꜱ ᴄʜᴀɴɴᴇʟ 📌", url=UPDATE_CHNL_LNK
+                                    "🎥 ಕನ್ನಡ ಹೊಸ ಮೂವೀಗಳು 🎥", url="https://t.me/+khU5cXKGQNkzMjJl"
                                 )
                             ],
                         ]
@@ -544,7 +544,7 @@ async def start(client, message):
                     btn = [
                         [
                             InlineKeyboardButton(
-                                "📌 ᴊᴏɪɴ ᴜᴘᴅᴀᴛᴇꜱ ᴄʜᴀɴɴᴇʟ 📌", url=UPDATE_CHNL_LNK
+                                "🎥 ಕನ್ನಡ ಹೊಸ ಮೂವೀಗಳು 🎥", url="https://t.me/+khU5cXKGQNkzMjJl"
                             )
                         ]
                     ]
@@ -615,7 +615,7 @@ async def start(client, message):
                     callback_data=f"generate_stream_link:{file_id}",
                 )
             ],
-            [InlineKeyboardButton("📌 ᴊᴏɪɴ ᴜᴘᴅᴀᴛᴇꜱ ᴄʜᴀɴɴᴇʟ 📌", url=UPDATE_CHNL_LNK)],
+            [InlineKeyboardButton("🎥 ಕನ್ನಡ ಹೊಸ ಮೂವೀಗಳು 🎥", url="https://t.me/+khU5cXKGQNkzMjJl")],
         ]
     elif STREAM_MODE and PREMIUM_STREAM_MODE:
         if not await db.has_premium_access(message.from_user.id):
@@ -627,7 +627,7 @@ async def start(client, message):
                 ],
                 [
                     InlineKeyboardButton(
-                        "📌 ᴊᴏɪɴ ᴜᴘᴅᴀᴛᴇꜱ ᴄʜᴀɴɴᴇʟ 📌", url=UPDATE_CHNL_LNK
+                        "🎥 ಕನ್ನಡ ಹೊಸ ಮೂವೀಗಳು 🎥", url="https://t.me/+khU5cXKGQNkzMjJl"
                     )
                 ],
             ]
@@ -641,13 +641,13 @@ async def start(client, message):
                 ],
                 [
                     InlineKeyboardButton(
-                        "📌 ᴊᴏɪɴ ᴜᴘᴅᴀᴛᴇꜱ ᴄʜᴀɴɴᴇʟ 📌", url=UPDATE_CHNL_LNK
+                        "🎥 ಕನ್ನಡ ಹೊಸ ಮೂವೀಗಳು 🎥", url="https://t.me/+khU5cXKGQNkzMjJl"
                     )
                 ],
             ]
     else:
         btn = [
-            [InlineKeyboardButton("📌 ᴊᴏɪɴ ᴜᴘᴅᴀᴛᴇꜱ ᴄʜᴀɴɴᴇʟ 📌", url=UPDATE_CHNL_LNK)]
+            [InlineKeyboardButton("🎥 ಕನ್ನಡ ಹೊಸ ಮೂವೀಗಳು 🎥", url="https://t.me/+khU5cXKGQNkzMjJl")]
         ]
     msg = await client.send_cached_media(
         chat_id=message.from_user.id,
