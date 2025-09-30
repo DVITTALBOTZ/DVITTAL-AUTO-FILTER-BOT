@@ -1,0 +1,50 @@
+name: Auto Lint & Auto-Correct
+permissions:
+  contents: read
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  flake8:
+    name: Flake8 Check
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-python@v6
+        with:
+          python-version: "3.11"
+      - run: pip install flake8
+      - run: flake8 . --count --max-complexity=10 --max-line-length=120 --statistics || true
+
+  auto_format:
+    name: Auto-Format (isort + black)
+    runs-on: ubuntu-latest
+    needs: flake8
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - uses: actions/setup-python@v6
+        with:
+          python-version: "3.11"
+
+      - run: pip install isort black
+
+      - name: Run isort
+        run: isort .
+
+      - name: Run black
+        run: black .
+
+      - name: Commit & Push Auto-Fixes
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git add .
+          git diff-index --quiet HEAD || git commit -m "Auto-correct code formatting"
+          git push
