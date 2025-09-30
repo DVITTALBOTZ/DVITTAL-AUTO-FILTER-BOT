@@ -1167,7 +1167,8 @@ async def cb_handler(client: Client, query: CallbackQuery):
                         ],
                         [
                             InlineKeyboardButton(
-                                "🎥 ಕನ್ನಡ ಹೊಸ ಮೂವೀಗಳು 🎥", url="https://t.me/+khU5cXKGQNkzMjJl"
+                                "🎥 ಕನ್ನಡ ಹೊಸ ಮೂವೀಗಳು 🎥",
+                                url="https://t.me/+khU5cXKGQNkzMjJl",
                             )
                         ],
                     ]
