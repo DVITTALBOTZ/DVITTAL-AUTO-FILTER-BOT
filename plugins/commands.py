@@ -507,7 +507,8 @@ async def start(client, message):
                         ],
                         [
                             InlineKeyboardButton(
-                                "🎥 ಕನ್ನಡ ಹೊಸ ಮೂವೀಗಳು 🎥", url="https://t.me/+khU5cXKGQNkzMjJl"
+                                "🎥 ಕನ್ನಡ ಹೊಸ ಮೂವೀಗಳು 🎥",
+                                url="https://t.me/+khU5cXKGQNkzMjJl",
                             )
                         ],
                     ]
@@ -522,7 +523,8 @@ async def start(client, message):
                             ],
                             [
                                 InlineKeyboardButton(
-                                    "🎥 ಕನ್ನಡ ಹೊಸ ಮೂವೀಗಳು 🎥", url="https://t.me/+khU5cXKGQNkzMjJl"
+                                    "🎥 ಕನ್ನಡ ಹೊಸ ಮೂವೀಗಳು 🎥",
+                                    url="https://t.me/+khU5cXKGQNkzMjJl",
                                 )
                             ],
                         ]
@@ -536,7 +538,8 @@ async def start(client, message):
                             ],
                             [
                                 InlineKeyboardButton(
-                                    "🎥 ಕನ್ನಡ ಹೊಸ ಮೂವೀಗಳು 🎥", url="https://t.me/+khU5cXKGQNkzMjJl"
+                                    "🎥 ಕನ್ನಡ ಹೊಸ ಮೂವೀಗಳು 🎥",
+                                    url="https://t.me/+khU5cXKGQNkzMjJl",
                                 )
                             ],
                         ]
@@ -544,7 +547,8 @@ async def start(client, message):
                     btn = [
                         [
                             InlineKeyboardButton(
-                                "🎥 ಕನ್ನಡ ಹೊಸ ಮೂವೀಗಳು 🎥", url="https://t.me/+khU5cXKGQNkzMjJl"
+                                "🎥 ಕನ್ನಡ ಹೊಸ ಮೂವೀಗಳು 🎥",
+                                url="https://t.me/+khU5cXKGQNkzMjJl",
                             )
                         ]
                     ]
@@ -615,7 +619,11 @@ async def start(client, message):
                     callback_data=f"generate_stream_link:{file_id}",
                 )
             ],
-            [InlineKeyboardButton("🎥 ಕನ್ನಡ ಹೊಸ ಮೂವೀಗಳು 🎥", url="https://t.me/+khU5cXKGQNkzMjJl")],
+            [
+                InlineKeyboardButton(
+                    "🎥 ಕನ್ನಡ ಹೊಸ ಮೂವೀಗಳು 🎥", url="https://t.me/+khU5cXKGQNkzMjJl"
+                )
+            ],
         ]
     elif STREAM_MODE and PREMIUM_STREAM_MODE:
         if not await db.has_premium_access(message.from_user.id):
@@ -647,7 +655,11 @@ async def start(client, message):
             ]
     else:
         btn = [
-            [InlineKeyboardButton("🎥 ಕನ್ನಡ ಹೊಸ ಮೂವೀಗಳು 🎥", url="https://t.me/+khU5cXKGQNkzMjJl")]
+            [
+                InlineKeyboardButton(
+                    "🎥 ಕನ್ನಡ ಹೊಸ ಮೂವೀಗಳು 🎥", url="https://t.me/+khU5cXKGQNkzMjJl"
+                )
+            ]
         ]
     msg = await client.send_cached_media(
         chat_id=message.from_user.id,
