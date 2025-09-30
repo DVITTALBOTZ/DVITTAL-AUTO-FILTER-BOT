@@ -1535,7 +1535,6 @@ async def cb_handler(client: Client, query: CallbackQuery):
     await query.answer(MSG_ALRT)
 
 
-
 async def auto_filter(client, msg, spoll=False):
     try:
         curr_time = datetime.now(pytz.timezone("Asia/Kolkata")).time()
@@ -1545,7 +1544,9 @@ async def auto_filter(client, msg, spoll=False):
         if not spoll:
             if getattr(message, "text", "").startswith("/"):
                 return
-            if re.findall(r"((^\/|^,|^!|^\.|^[\U0001F600-\U000E007F]).*)", message.text):
+            if re.findall(
+                r"((^\/|^,|^!|^\.|^[\U0001F600-\U000E007F]).*)", message.text
+            ):
                 return
             if len(message.text) < 100:
                 search = message.text.lower()
@@ -1553,8 +1554,15 @@ async def auto_filter(client, msg, spoll=False):
                     f"**🔎 sᴇᴀʀᴄʜɪɴɢ** `{search}`", reply_to_message_id=message.id
                 )
                 removes = {
-                    "in", "upload", "series", "full", "horror", "thriller", "mystery",
-                    "print", "file",
+                    "in",
+                    "upload",
+                    "series",
+                    "full",
+                    "horror",
+                    "thriller",
+                    "mystery",
+                    "print",
+                    "file",
                 }
                 search = " ".join(x for x in search.split(" ") if x not in removes)
                 search = re.sub(
@@ -1704,6 +1712,7 @@ async def auto_filter(client, msg, spoll=False):
                 await message.delete()
     except Exception as err:
         logger.error("Error in auto_filter: %s", err)
+
 
 async def ai_spell_check(chat_id, wrong_name):
     async def search_movie(wrong_name):
