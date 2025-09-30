@@ -1841,6 +1841,7 @@ async def ai_spell_check(chat_id, wrong_name):
 
         movie_list.remove(movie)
 
+
 async def advantage_spell_chok(client, message):
     mv_id = message.id
     search = message.text
@@ -1867,8 +1868,7 @@ async def advantage_spell_chok(client, message):
     buttons = [
         [
             InlineKeyboardButton(
-                text=movie.get("title"),
-                callback_data=f"spol#{movie.movieID}#{user}"
+                text=movie.get("title"), callback_data=f"spol#{movie.movieID}#{user}"
             )
         ]
         for movie in movies
