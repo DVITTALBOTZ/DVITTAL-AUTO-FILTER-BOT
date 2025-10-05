@@ -321,6 +321,27 @@ async def start(client, message):
                 file_id = file.file_id
                 files_ = await get_file_details(file_id)
                 files1 = files_[0]
+                # ✅ Quality check for allfiles
+                user_id = message.from_user.id
+                is_premium = await db.has_premium_access(user_id)
+                file_quality = getattr(files1, "quality", "")
+                if QUALITY_LIMIT and not is_premium:
+                    if not any(q in (files1.file_name or "").lower() for q in FREE_QUALITIES):
+                        buttons = [[
+                            InlineKeyboardButton('🎟 Upgrade to Premium 🎟', callback_data="premium_info")
+                        ],[
+                            InlineKeyboardButton('📌 Join Updates Channel 📌', url=UPDATE_CHNL_LNK)
+                        ]]
+                        reply_markup = InlineKeyboardMarkup(buttons)
+                        await message.reply_photo(
+                            photo="http://ibb.co/608JNcwR",
+                            caption=f"⚠️ Hey {message.from_user.mention},\n\n"
+                                    f"Ye file sirf <b>Premium Users</b> ke liye available hai.\n\n"
+                                    f"Free users ko sirf 360p & 480p quality milti hai ✅",
+                            reply_markup=reply_markup,
+                            parse_mode=enums.ParseMode.HTML
+                        )
+                        return
                 title = clean_filename(files1.file_name)
                 size = get_size(files1.file_size)
                 f_caption = files1.caption
@@ -439,6 +460,26 @@ async def start(client, message):
         return await message.reply('ɴᴏ ꜱᴜᴄʜ ꜰɪʟᴇ ᴇxɪꜱᴛꜱ !')
     
     files = files_[0]
+    # ✅ Quality restriction for single file
+    is_premium = await db.has_premium_access(user)
+    file_quality = getattr(files, "quality", "")
+    if QUALITY_LIMIT and not is_premium:
+        if not any(q in (files.file_name or "").lower() for q in FREE_QUALITIES):
+            buttons = [[
+                InlineKeyboardButton('🎟 Upgrade to Premium 🎟', callback_data="premium_info")
+            ],[
+                InlineKeyboardButton('📌 Join Updates Channel 📌', url=UPDATE_CHNL_LNK)
+            ]]
+            reply_markup = InlineKeyboardMarkup(buttons)
+            await message.reply_photo(
+                photo="http://ibb.co/608JNcwR",
+                caption=f"⚠️ Hey {message.from_user.mention},\n\n"
+                        f"Ye file sirf <b>Premium Users</b> ke liye available hai.\n\n"
+                        f"Free users ko sirf 360p & 480p quality milti hai ✅",
+                reply_markup=reply_markup,
+                parse_mode=enums.ParseMode.HTML
+            )
+            return
     title = clean_filename(files.file_name)
     size = get_size(files.file_size)
     f_caption = files.caption
