@@ -30,6 +30,10 @@ USE_CAPTION_FILTER = bool(environ.get('USE_CAPTION_FILTER', True))  # Use captio
 INDEX_CAPTION = bool(environ.get('SAVE_CAPTION', True)) # Save caption db when idexing make it False if you dont use USE_CAPTION_FILTER for search results (default: True)
 #Making it false will not save caption in db SO you can save some storage space
 
+#Quality limits
+
+QUALITY_LIMIT = bool(environ.get('QUALITY_LIMIT', False))
+FREE_QUALITIES = ["360p", "480p"]
 
 PICS = (environ.get('PICS', 'https://graph.org/file/56b5deb73f3b132e2bb73.jpg https://graph.org/file/5303692652d91d52180c2.jpg https://graph.org/file/425b6f46efc7c6d64105f.jpg https://graph.org/file/876867e761c6c7a29855b.jpg')).split()  # Sample pic
 NOR_IMG = environ.get("NOR_IMG", "https://graph.org/file/e20b5fdaf217252964202.jpg")
