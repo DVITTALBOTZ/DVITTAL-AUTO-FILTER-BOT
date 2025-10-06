@@ -24,6 +24,7 @@ bs4
 jinja2
 colorama
 humanize
+watchdog   # 👈 Added this line
 
 # --- Media & Processing ---
 Pillow
