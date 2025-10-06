@@ -392,9 +392,23 @@ async def filter_qualities_cb_handler(client: Client, query: CallbackQuery):
     message = query.message
     try:
         if int(query.from_user.id) not in [query.message.reply_to_message.from_user.id, 0]:
-            return await query.answer(f"⚠️ ʜᴇʟʟᴏ {query.from_user.first_name},\nᴛʜɪꜱ ɪꜱ ɴᴏᴛ ʏᴏᴜʀ ᴍᴏᴠɪᴇ ʀᴇǫᴜᴇꜱᴛ,\nʀᴇǫᴜᴇꜱᴛ ʏᴏᴜʀ'ꜱ...", show_alert=True,)
+            return await query.answer(
+                f"⚠️ ʜᴇʟʟᴏ {query.from_user.first_name},\n"
+                f"ᴛʜɪꜱ ɪꜱ ɴᴏᴛ ʏᴏᴜʀ ᴍᴏᴠɪᴇ ʀᴇǫᴜᴇꜱᴛ,\nʀᴇǫᴜᴇꜱᴛ ʏᴏᴜʀ'ꜱ...",
+                show_alert=True,
+            )
     except:
         pass
+
+    # ✅ ALERT message added here (for quality > 480p)
+    high_qualities = ["720p", "1080p", "2k", "4k", "hdr", "bluray"]
+    if any(q in qual.lower() for q in high_qualities):
+        return await query.answer(
+            "⚠️ ʜɪɢʜ Qᴜᴀʟɪᴛʏ ɪꜱ ᴏɴʟʏ ꜰᴏʀ ᴘʀᴇᴍɪᴜᴍ ᴜꜱᴇʀꜱ ⚠️\n\n"
+            "Uᴘɢʀᴀᴅᴇ ɴᴏᴡ ᴛᴏ ᴜɴʟᴏᴄᴋ 720ᴘ, 1080ᴘ, 4ᴋ!",
+            show_alert=True
+        )
+
     if qual != "homepage":
         search = f"{search} {qual}"
     BUTTONS[key] = search
@@ -453,29 +467,35 @@ async def filter_qualities_cb_handler(client: Client, query: CallbackQuery):
         try:
             if settings['max_btn']:
                 btn.append(
-
-                    [InlineKeyboardButton("ᴘᴀɢᴇ", callback_data="pages"), InlineKeyboardButton(
-                        text=f"1/{math.ceil(int(total_results)/10)}", callback_data="pages"), InlineKeyboardButton(text="ɴᴇxᴛ ⋟", callback_data=f"next_{req}_{key}_{offset}")]
+                    [InlineKeyboardButton("ᴘᴀɢᴇ", callback_data="pages"),
+                     InlineKeyboardButton(
+                         text=f"1/{math.ceil(int(total_results)/10)}", callback_data="pages"),
+                     InlineKeyboardButton(text="ɴᴇxᴛ ⋟",
+                                          callback_data=f"next_{req}_{key}_{offset}")]
                 )
             else:
                 btn.append(
-
-                    [InlineKeyboardButton("ᴘᴀɢᴇ", callback_data="pages"), InlineKeyboardButton(
-                        text=f"1/{math.ceil(int(total_results)/int(MAX_B_TN))}", callback_data="pages"), InlineKeyboardButton(text="ɴᴇxᴛ ⋟", callback_data=f"next_{req}_{key}_{offset}")]
+                    [InlineKeyboardButton("ᴘᴀɢᴇ", callback_data="pages"),
+                     InlineKeyboardButton(
+                         text=f"1/{math.ceil(int(total_results)/int(MAX_B_TN))}", callback_data="pages"),
+                     InlineKeyboardButton(text="ɴᴇxᴛ ⋟",
+                                          callback_data=f"next_{req}_{key}_{offset}")]
                 )
         except KeyError:
             await save_group_settings(query.message.chat.id, 'max_btn', True)
             btn.append(
-
-                [InlineKeyboardButton("ᴘᴀɢᴇ", callback_data="pages"), InlineKeyboardButton(
-                    text=f"1/{math.ceil(int(total_results)/10)}", callback_data="pages"), InlineKeyboardButton(text="ɴᴇxᴛ ⋟", callback_data=f"next_{req}_{key}_{offset}")]
+                [InlineKeyboardButton("ᴘᴀɢᴇ", callback_data="pages"),
+                 InlineKeyboardButton(
+                     text=f"1/{math.ceil(int(total_results)/10)}", callback_data="pages"),
+                 InlineKeyboardButton(text="ɴᴇxᴛ ⋟",
+                                      callback_data=f"next_{req}_{key}_{offset}")]
             )
     else:
         btn.append(
-
             [InlineKeyboardButton(
                 text="↭ ɴᴏ ᴍᴏʀᴇ ᴘᴀɢᴇꜱ ᴀᴠᴀɪʟᴀʙʟᴇ ↭", callback_data="pages")]
         )
+
     if not settings["button"]:
         cur_time = datetime.now(pytz.timezone('Asia/Kolkata')).time()
         time_difference = timedelta(hours=cur_time.hour, minutes=cur_time.minute, seconds=(cur_time.second+(cur_time.microsecond/1000000))) - \
@@ -485,7 +505,9 @@ async def filter_qualities_cb_handler(client: Client, query: CallbackQuery):
         dreamx_title = clean_search_text(search)
         cap = await get_cap(settings, remaining_seconds, files, query, total_results, dreamx_title, offset=1)
         try:
-            await query.message.edit_text(text=cap, reply_markup=InlineKeyboardMarkup(btn), disable_web_page_preview=True)
+            await query.message.edit_text(
+                text=cap, reply_markup=InlineKeyboardMarkup(btn), disable_web_page_preview=True
+            )
         except MessageNotModified:
             pass
     else:
@@ -493,7 +515,9 @@ async def filter_qualities_cb_handler(client: Client, query: CallbackQuery):
             await query.edit_message_reply_markup(reply_markup=InlineKeyboardMarkup(btn))
         except MessageNotModified:
             pass
+
     await query.answer()
+
 
 # languages
 
