@@ -90,7 +90,7 @@ STAR_PREMIUM_PLANS = {
 DATABASE_URI = environ.get("DATABASE_URI", "")
 DATABASE_NAME = environ.get("DATABASE_NAME", "Rashmika1")
 COLLECTION_NAME = environ.get("COLLECTION_NAME", "Rashmika1")
-MULTIPLE_DB = is_enabled(environ.get("MULTIPLE_DB", "True"), True)
+MULTIPLE_DB = is_enabled(environ.get("MULTIPLE_DB", "False"), False)
 DATABASE_URI2 = environ.get("DATABASE_URI2", "")
 
 # ============================
