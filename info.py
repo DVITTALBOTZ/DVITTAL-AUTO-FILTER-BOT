@@ -87,11 +87,17 @@ STAR_PREMIUM_PLANS = {
 # ============================
 # MongoDB Configuration
 # ============================
-DATABASE_URI = environ.get("DATABASE_URI", "mongodb+srv://Rashmika1:Rashmika@rashmika1.sbnf8wy.mongodb.net/?retryWrites=true&w=majority&appName=Rashmika1")
+DATABASE_URI = environ.get(
+    "DATABASE_URI",
+    "mongodb+srv://Rashmika1:Rashmika@rashmika1.sbnf8wy.mongodb.net/?retryWrites=true&w=majority&appName=Rashmika1",
+)
 DATABASE_NAME = environ.get("DATABASE_NAME", "Rashmika1")
 COLLECTION_NAME = environ.get("COLLECTION_NAME", "Rashmika1")
 MULTIPLE_DB = is_enabled(environ.get("MULTIPLE_DB", "False"), False)
-DATABASE_URI2 = environ.get("DATABASE_URI2", "mongodb+srv://Rashmika1:Rashmika@cluster0.2rfx8ak.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0")
+DATABASE_URI2 = environ.get(
+    "DATABASE_URI2",
+    "mongodb+srv://Rashmika1:Rashmika@cluster0.2rfx8ak.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0",
+)
 
 # ============================
 # Movie Notification & Update Settings
