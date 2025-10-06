@@ -193,8 +193,6 @@ PREMIUM_STREAM_MODE = is_enabled(environ.get("PREMIUM_STREAM_MODE", False), Fals
 # Bot Configuration
 # ============================
 
-URL = "https://moral-ape-rashmika2-99e2571a.koyeb.app/"
-
 AUTH_REQ_CHANNELS = [
     int(ch) for ch in auth_req_channels.split() if ch and id_pattern.match(ch)
 ]
