@@ -61,7 +61,9 @@ async def safe_start_bot():
             await start_bot()
             break
         except FloodWait as e:
-            logging.warning(f"FloodWait! Sleeping asynchronously for {e.value} seconds...")
+            logging.warning(
+                f"FloodWait! Sleeping asynchronously for {e.value} seconds..."
+            )
             await asyncio.sleep(e.value)
         except KeyboardInterrupt:
             logging.info("Service stopped. Bye 👋")
@@ -103,7 +105,9 @@ async def start_bot():
     await Media.ensure_indexes()
     if MULTIPLE_DB:
         await Media2.ensure_indexes()
-        print("Multiple Database Mode On. Files will be saved in second DB if the first DB is full.")
+        print(
+            "Multiple Database Mode On. Files will be saved in second DB if the first DB is full."
+        )
     else:
         print("Single DB Mode On! Files will be saved in first database.")
 
@@ -111,7 +115,9 @@ async def start_bot():
     asyncio.create_task(check_expired_premium(dreamxbotz))
 
     # Logging startup
-    logging.info(f"{me.first_name} with Pyrogram v{__version__} (Layer {layer}) started on {me.username}.")
+    logging.info(
+        f"{me.first_name} with Pyrogram v{__version__} (Layer {layer}) started on {me.username}."
+    )
     logging.info(LOG_STR)
     logging.info(script.LOGO)
 
@@ -122,7 +128,7 @@ async def start_bot():
     current_time = now.strftime("%H:%M:%S %p")
     await dreamxbotz.send_message(
         chat_id=LOG_CHANNEL,
-        text=script.RESTART_TXT.format(temp.B_LINK, today, current_time)
+        text=script.RESTART_TXT.format(temp.B_LINK, today, current_time),
     )
 
     # Start web server
