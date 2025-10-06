@@ -9,9 +9,11 @@ from pathlib import Path
 import pytz
 from aiohttp import web
 from PIL import Image
-from pyrogram import __version__, idle, filters
+from pyrogram import __version__, filters, idle
 from pyrogram.errors import FloodWait
 from pyrogram.raw.all import layer
+from watchdog.events import FileSystemEventHandler
+from watchdog.observers import Observer
 
 from database.ia_filterdb import Media, Media2
 from database.users_chats_db import db
@@ -22,9 +24,6 @@ from info import *  # OWNER_LNK should be here
 from plugins import check_expired_premium, keep_alive, web_server
 from Script import script
 from utils import temp
-
-from watchdog.observers import Observer
-from watchdog.events import FileSystemEventHandler
 
 Image.MAX_IMAGE_PIXELS = 500_000_000
 
@@ -45,6 +44,7 @@ files = glob.glob(ppath)
 LOADED_PLUGINS = set()
 PLUGINS_FOLDER = Path("plugins")
 
+
 # ---------------- Plugin Loader ---------------- #
 async def load_plugins():
     global LOADED_PLUGINS
@@ -62,6 +62,7 @@ async def load_plugins():
         LOADED_PLUGINS.add(plugin_name)
         print(f"✅ DreamxBotz Imported => {plugin_name}")
 
+
 # ---------------- Plugin Hot-Reload ---------------- #
 class PluginReloadHandler(FileSystemEventHandler):
     def on_modified(self, event):
@@ -71,6 +72,7 @@ class PluginReloadHandler(FileSystemEventHandler):
     def on_created(self, event):
         if event.src_path.endswith(".py"):
             asyncio.create_task(reload_plugin(event.src_path))
+
 
 async def reload_plugin(path):
     try:
@@ -92,12 +94,14 @@ async def reload_plugin(path):
     except Exception as e:
         print(f"⚠ Failed to reload plugin {plugin_name}: {e}")
 
+
 def start_plugin_watcher():
     event_handler = PluginReloadHandler()
     observer = Observer()
     observer.schedule(event_handler, str(PLUGINS_FOLDER), recursive=False)
     observer.start()
     return observer
+
 
 # ---------------- Auto Delete Private Messages ---------------- #
 @dreamxbotz.on_message(filters.private & ~filters.service)
@@ -113,11 +117,13 @@ async def auto_delete_pm(_, message):
     except Exception as e:
         print(f"Auto-delete error: {e}")
 
+
 # ---------------- Owner Command to Reload Plugins ---------------- #
 @dreamxbotz.on_message(filters.command("plugins") & filters.user(OWNER_LNK))
 async def list_plugins(_, message):
     loaded = "\n".join(f"• {p}" for p in sorted(LOADED_PLUGINS)) or "No plugins loaded."
     await message.reply_text(f"✅ **Loaded Plugins:**\n{loaded}")
+
 
 # ---------------- Bot Startup ---------------- #
 async def dreamxbotz_start():
@@ -153,7 +159,9 @@ async def dreamxbotz_start():
     dreamxbotz.username = "@" + me.username
 
     dreamxbotz.loop.create_task(check_expired_premium(dreamxbotz))
-    logging.info(f"{me.first_name} with Pyrogram v{__version__} (Layer {layer}) started on {me.username}.")
+    logging.info(
+        f"{me.first_name} with Pyrogram v{__version__} (Layer {layer}) started on {me.username}."
+    )
     logging.info(LOG_STR)
     logging.info(script.LOGO)
 
@@ -181,6 +189,7 @@ async def dreamxbotz_start():
 
     await idle()
 
+
 # ---------------- Safe Startup ---------------- #
 async def safe_start():
     while True:
@@ -201,6 +210,7 @@ async def safe_start():
                 await dreamxbotz.stop()
             logging.info("♻ Restarting DreamxBotz in 5 seconds...")
             await asyncio.sleep(5)
+
 
 if __name__ == "__main__":
     try:
