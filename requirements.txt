@@ -1,41 +1,45 @@
+# --- Core Framework ---
 pyrofork==2.3.45
 tgcrypto-pyrofork
+
+# --- Database & ORM ---
 pymongo==4.13.2
 motor==3.7.1
 marshmallow<4.0.0
 umongo
+
+# --- Networking & Utils ---
 requests
-bs4
-shortzy
-datetime
-pytz
 aiohttp
-
-
-
-# Other tools
-opencv-python-headless==4.8.1.78
+pytz
+datetime
 python-dotenv==0.21.1
-PyLeaves==1.0.2
-humanize
-Pillow
-psutil
-numpy
-wheel
-ujson
-wget
-aiofiles
-dnspython==2.7.0
 python-decouple
-ffmpeg-python==0.2.0
+dnspython==2.7.0
+aiofiles
+wget
+ujson
+shortzy
+bs4
 jinja2
+colorama
+humanize
+
+# --- Media & Processing ---
+Pillow
+opencv-python-headless==4.8.1.78
+ffmpeg-python==0.2.0
+numpy
+psutil
+
+# --- Extra Tools ---
 apscheduler
 pyshorteners
 pyromod
-colorama
 fuzzywuzzy
 Levenshtein==0.24.0
+PyLeaves==1.0.2
+wheel
 
-
-# Git-based Packages
+# --- Git-based Packages ---
 git+https://github.com/Joelkb/cinemagoer
