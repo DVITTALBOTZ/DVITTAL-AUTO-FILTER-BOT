@@ -1,6 +1,8 @@
 import asyncio
 import glob
 import importlib
+import logging
+import logging.config
 import sys
 import time
 from datetime import date, datetime
@@ -9,7 +11,7 @@ from pathlib import Path
 import pytz
 from aiohttp import web
 from PIL import Image
-from pyrogram import Client, __version__, idle, filters
+from pyrogram import Client, __version__, filters, idle
 from pyrogram.errors import FloodWait, MessageDeleteForbidden
 from pyrogram.raw.all import layer
 
@@ -23,9 +25,6 @@ from plugins import check_expired_premium, keep_alive, web_server
 from Script import script
 from utils import temp
 
-import logging
-import logging.config
-
 # --- Image & Logging setup ---
 Image.MAX_IMAGE_PIXELS = 500_000_000
 logging.config.fileConfig("logging.conf")
@@ -36,6 +35,7 @@ logging.getLogger("pymongo").setLevel(logging.WARNING)
 
 botStartTime = time.time()
 PLUGIN_PATH = Path("plugins")
+
 
 # --- Helper: Load all plugins safely ---
 def load_plugins():
@@ -68,7 +68,9 @@ async def auto_delete_pm(client, message):
     try:
         await asyncio.sleep(delay)
         await message.delete()
-        logging.info(f"🗑️ Auto-deleted PM from {message.from_user.id} after {AUTO_DELETE_HOURS}h")
+        logging.info(
+            f"🗑️ Auto-deleted PM from {message.from_user.id} after {AUTO_DELETE_HOURS}h"
+        )
     except MessageDeleteForbidden:
         logging.warning(f"⚠️ Cannot delete message {message.id} (forbidden)")
     except Exception as e:
@@ -101,12 +103,19 @@ async def dreamxbotz_start():
         print("💾 Single-DB mode enabled.")
 
     me = bot_info
-    temp.ME, temp.U_NAME, temp.B_NAME, temp.B_LINK = me.id, me.username, me.first_name, me.mention
+    temp.ME, temp.U_NAME, temp.B_NAME, temp.B_LINK = (
+        me.id,
+        me.username,
+        me.first_name,
+        me.mention,
+    )
     dreamxbotz.username = f"@{me.username}"
 
     dreamxbotz.loop.create_task(check_expired_premium(dreamxbotz))
 
-    logging.info(f"{me.first_name} running with Pyrogram v{__version__} (Layer {layer}).")
+    logging.info(
+        f"{me.first_name} running with Pyrogram v{__version__} (Layer {layer})."
+    )
     logging.info(LOG_STR)
     logging.info(script.LOGO)
 
@@ -117,7 +126,7 @@ async def dreamxbotz_start():
 
     await dreamxbotz.send_message(
         chat_id=LOG_CHANNEL,
-        text=script.RESTART_TXT.format(temp.B_LINK, today, current_time)
+        text=script.RESTART_TXT.format(temp.B_LINK, today, current_time),
     )
 
     app = web.AppRunner(await web_server())
