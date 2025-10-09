@@ -44,6 +44,9 @@ SUBSCRIPTION = environ.get(
 )
 FSUB_PICS = environ.get("FSUB_PICS", "https://envs.sh/bBD.jpg").split()
 
+# Auto delete delay for private messages (in hours)
+AUTO_DELETE_HOURS = 4  # Change this to any number (e.g., 1, 2, 6)
+
 # ============================
 # Admin, Channels & Users Configuration
 # ============================
