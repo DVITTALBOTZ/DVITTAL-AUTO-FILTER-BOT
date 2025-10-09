@@ -1,11 +1,14 @@
 import asyncio
 import glob
 import importlib
+import logging
+import logging.config
 import sys
+import threading
 import time
 from datetime import date, datetime
 from pathlib import Path
-import threading
+
 import pytz
 from aiohttp import web
 from PIL import Image
@@ -25,7 +28,6 @@ from plugins import check_expired_premium, keep_alive, web_server
 from Script import script
 from utils import temp
 
-import logging, logging.config
 Image.MAX_IMAGE_PIXELS = 500_000_000
 
 logging.config.fileConfig("logging.conf")
@@ -51,7 +53,9 @@ async def load_plugins():
         if plugin_name in LOADED_PLUGINS:
             continue
         try:
-            spec = importlib.util.spec_from_file_location(f"plugins.{plugin_name}", patt)
+            spec = importlib.util.spec_from_file_location(
+                f"plugins.{plugin_name}", patt
+            )
             module = importlib.util.module_from_spec(spec)
             spec.loader.exec_module(module)
             sys.modules[f"plugins.{plugin_name}"] = module
@@ -124,7 +128,9 @@ async def list_plugins(_, message):
     await message.reply_text(f"✅ **Loaded Plugins:**\n{loaded}")
 
 
-@dreamxbotz.on_message(filters.command(["reload", "reload_plugin"]) & filters.user(OWNER_LNK))
+@dreamxbotz.on_message(
+    filters.command(["reload", "reload_plugin"]) & filters.user(OWNER_LNK)
+)
 async def reload_plugins_cmd(_, message):
     args = message.text.split(maxsplit=1)
     target = args[1].strip() if len(args) > 1 else None
@@ -164,7 +170,12 @@ async def dreamxbotz_start():
 
     me = await dreamxbotz.get_me()
     dreamxbotz.username = "@" + me.username
-    temp.ME, temp.U_NAME, temp.B_NAME, temp.B_LINK = me.id, me.username, me.first_name, me.mention
+    temp.ME, temp.U_NAME, temp.B_NAME, temp.B_LINK = (
+        me.id,
+        me.username,
+        me.first_name,
+        me.mention,
+    )
 
     await initialize_clients()
     await load_plugins()
@@ -183,7 +194,9 @@ async def dreamxbotz_start():
         logging.info("🗄 Single DB Mode On.")
 
     dreamxbotz.loop.create_task(check_expired_premium(dreamxbotz))
-    logging.info(f"{me.first_name} with Pyrogram v{__version__} (Layer {layer}) started on @{me.username}.")
+    logging.info(
+        f"{me.first_name} with Pyrogram v{__version__} (Layer {layer}) started on @{me.username}."
+    )
     logging.info(LOG_STR)
     logging.info(script.LOGO)
 
@@ -192,7 +205,9 @@ async def dreamxbotz_start():
     today, current_time = date.today(), now.strftime("%I:%M:%S %p")
 
     try:
-        await dreamxbotz.send_message(LOG_CHANNEL, script.RESTART_TXT.format(temp.B_LINK, today, current_time))
+        await dreamxbotz.send_message(
+            LOG_CHANNEL, script.RESTART_TXT.format(temp.B_LINK, today, current_time)
+        )
     except Exception as e:
         logging.warning(f"Failed to send restart message: {e}")
 
