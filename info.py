@@ -20,7 +20,7 @@ def is_enabled(value, default):
 SESSION = environ.get('SESSION', 'dreamxbotz_search')   # Session name for the bot
 API_ID = int(environ.get('API_ID', '22262560')) # API ID from my.telegram.org
 API_HASH = environ.get('API_HASH', '73eeccd990484d0c87a90756aae9fa21')  # API Hash from my.telegram.org
-BOT_TOKEN = environ.get('BOT_TOKEN', "")    # Bot token from @BotFather
+BOT_TOKEN = environ.get('BOT_TOKEN', "8322409804:AAHBK2I2q44G1oJMkcU8HbdB851biTKrzyI")    # Bot token from @BotFather
 
 # ============================
 # Bot Settings Configuration
@@ -53,8 +53,8 @@ reqst_channel = environ.get('REQST_CHANNEL_ID', '-100')  # Request channel id (m
 SUPPORT_CHAT = environ.get('SUPPORT_CHAT', 'https://t.me/')  # Support group link (make sure bot is admin)
 
 # FORCE_SUB 
-auth_req_channels = environ.get("AUTH_REQ_CHANNELS", "-1002598944026")# requst to join Channel for force sub (make sure bot is admin) only for bot ADMINS  
-auth_channels     = environ.get("AUTH_CHANNELS", "-1002598944026")# Channels for force sub (make sure bot is admin)
+auth_req_channels = environ.get("AUTH_REQ_CHANNELS", "-1003285698575")# requst to join Channel for force sub (make sure bot is admin) only for bot ADMINS  
+auth_channels     = environ.get("AUTH_CHANNELS", "-1003285698575")# Channels for force sub (make sure bot is admin)
 
 # ============================
 # Payment Configuration
@@ -120,7 +120,7 @@ THREE_VERIFY_GAP = int(environ.get('THREE_VERIFY_GAP', "5400"))
 # ============================
 # Channel & Group Links Configuration
 # ============================
-GRP_LNK = environ.get('GRP_LNK', 'https://t.me/+UvNlvOwBsXgzYmFl') # Group link for the bot
+GRP_LNK = environ.get('GRP_LNK', 'https://t.me/+vIHqMzrVh4c3ZGI1') # Group link for the bot
 OWNER_LNK = environ.get('OWNER_LNK', 'http://t.me/Malli4U_Admin_Bot') # Owner link for the bot
 UPDATE_CHNL_LNK = environ.get('UPDATE_CHNL_LNK', 'https://t.me/Malli4U_Official2') # Update channel link for the bot
 
