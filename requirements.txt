@@ -11,8 +11,6 @@ datetime
 pytz
 aiohttp
 
-
-
 # Other tools
 opencv-python-headless==4.8.1.78
 python-dotenv==0.21.1
@@ -36,6 +34,5 @@ colorama
 fuzzywuzzy
 Levenshtein==0.24.0
 
-
 # Git-based Packages
-git+https://github.com/Joelkb/cinemagoer
+git+https://github.com/DreamXBotz/cinemagoer
