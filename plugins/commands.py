@@ -1404,3 +1404,42 @@ async def remove_fsub(client, message):
     except Exception as e:
         print(f"[ERROR] remove_fsub: {e}")
         await message.reply_text(f"⚠️ ᴀɴ ᴇʀʀᴏʀ ᴏᴄᴄᴜʀʀᴇᴅ: {e}")
+        from motor.motor_asyncio import AsyncIOMotorClient
+
+@Client.on_message(filters.command("cleandb") & filters.user(ADMINS))
+async def clean_db_command(client, message):
+    await message.reply_text("🧹 Cleaning database(s)... Please wait ⏳")
+
+    try:
+        fields_to_unset = {
+            "file_ref": "",
+            "file_type": "",
+            "mime_type": "",
+            "caption": ""
+        }
+
+        summary = []
+
+        # === Clean DB1 ===
+        mongo1 = AsyncIOMotorClient(DATABASE_URI)
+        db1 = mongo1[DATABASE_NAME]
+        col1 = db1[COLLECTION_NAME]
+        result1 = await col1.update_many({}, {"$unset": fields_to_unset})
+        summary.append(f"🗃️ DB1 — Matched: <code>{result1.matched_count}</code>, Modified: <code>{result1.modified_count}</code>")
+
+        # === Clean DB2 (only if MULTIPLE_DB is True) ===
+        if MULTIPLE_DB:
+            mongo2 = AsyncIOMotorClient(DATABASE_URI2)
+            db2 = mongo2[DATABASE_NAME]
+            col2 = db2[COLLECTION_NAME]
+            result2 = await col2.update_many({}, {"$unset": fields_to_unset})
+            summary.append(f"🗃️ DB2 — Matched: <code>{result2.matched_count}</code>, Modified: <code>{result2.modified_count}</code>")
+        else:
+            summary.append("⚙️ MULTIPLE_DB = False → Skipped cleaning DB2.")
+
+        await message.reply_text(
+            "✅ <b>Cleanup Complete!</b>\n\n" + "\n".join(summary)
+        )
+
+    except Exception as e:
+        await message.reply_text(f"❌ <b>Error while cleaning DB:</b>\n<code>{e}</code>")
