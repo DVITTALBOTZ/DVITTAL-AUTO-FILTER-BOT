@@ -1,6 +1,8 @@
 import re
 import os
 import logging
+import random
+import string
 from info import *
 from imdb import Cinemagoer 
 import asyncio
@@ -19,6 +21,10 @@ from plugins.Dreamxfutures.Imdbposter import get_movie_detailsx
 
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.INFO)
+
+def get_random_mix_id():
+    chars = string.ascii_letters + string.digits
+    return ''.join(random.choices(chars, k=6))
 
 BTN_URL_REGEX = re.compile(
     r"(\[([^\[]+?)\]\((buttonurl|buttonalert):(?:/{0,2})(.+?)(:same)?\))"
