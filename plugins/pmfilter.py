@@ -1765,12 +1765,13 @@ async def auto_filter(client, msg, spoll=False):
                 message_text = message.text or ""
                 search = message_text.lower()
 
-                stick_id = "CAACAgIAAxkBAAEPhm5o439f8A4sUGO2VcnBFZRRYxAxmQACtCMAAphLKUjeub7NKlvk2TYE"
+                stick_id = "CAACAgUAAxkBAAEQJmRpVii7QoUT_7CyegABteu0unBzkq0AAk4KAAK3UqlVO1V1A3W64x84BA"
                 keyboard = InlineKeyboardMarkup(
                     [[InlineKeyboardButton(f'🔎 sᴇᴀʀᴄʜɪɴɢ {search}', callback_data="hiding")]]
                 )
                 try:
-                    m = await message.reply_sticker(sticker=stick_id, reply_markup=keyboard)
+                    # m = await message.reply_sticker(sticker=stick_id, reply_markup=keyboard)
+                    m = await message.reply_sticker(sticker=stick_id)
                 except Exception as e:
                     logger.exception("reply_sticker failed: %s", e)
 

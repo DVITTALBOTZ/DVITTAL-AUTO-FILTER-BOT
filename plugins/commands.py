@@ -30,12 +30,6 @@ BATCH_FILES = {}
 
 @Client.on_message(filters.command("start") & filters.incoming)
 async def start(client, message):
-    if EMOJI_MODE:
-        try:
-            await message.react(emoji=random.choice(REACTIONS), big=True)
-        except Exception:
-            await message.react(emoji="⚡️")
-            pass
     m = message
     if len(m.command) == 2 and m.command[1].startswith(('notcopy', 'sendall')):
         _, userid, verify_id, file_id = m.command[1].split("_", 3)
@@ -77,6 +71,12 @@ async def start(client, message):
             reply_markup=reply_markup,
             parse_mode=enums.ParseMode.HTML
         )
+        if EMOJI_MODE:
+            try:
+                await message.react(emoji=random.choice(REACTIONS), big=True)
+            except Exception:
+                await message.react(emoji="⚡️")
+                pass
         await asyncio.sleep(300)
         await dlt.delete()
         return         
@@ -151,9 +151,11 @@ async def start(client, message):
             gtxt = "ɢᴏᴏᴅ ᴇᴠᴇɴɪɴɢ 🌘"
         else:
             gtxt = "ɢᴏᴏᴅ ɴɪɢʜᴛ 🌑"
-        m=await message.reply_text("⏳")
-        await asyncio.sleep(0.4)
-        await m.delete()
+        stick_id = "CAACAgUAAxkBAAEQJmRpVii7QoUT_7CyegABteu0unBzkq0AAk4KAAK3UqlVO1V1A3W64x84BA"
+        try:
+            m = await message.reply_sticker(sticker=stick_id)
+        except Exception as e:
+            logger.exception("reply_sticker failed: %s", e)
         PIC = f"{random.choice(PICS)}?r={get_random_mix_id()}"
         await message.reply_photo(
             photo=PIC,
@@ -161,6 +163,7 @@ async def start(client, message):
             reply_markup=reply_markup,
             parse_mode=enums.ParseMode.HTML
         )
+        await m.delete()
         return
     if message.command[1].startswith("reff_"):
         try:
