@@ -137,9 +137,8 @@ Use at your own discretion and **always respect platform rules and copyrights**.
 
 ---
 
-## 📜 License
 
-This project is licensed under the [MIT License](https://github.com/MrRaazz/DreamxBotz/blob/main/LICENSE)
+This project is licensed under the [DVITTAL AUTO FILTER BOT MIT License](https://github.com/DVITTALBOTZ/DVITTAL-AUTO-FILTER-BOT/blob/DvittalBotz/LICENSE)
 
 ---
 
