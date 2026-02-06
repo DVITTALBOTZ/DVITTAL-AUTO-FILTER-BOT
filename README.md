@@ -37,11 +37,10 @@ Try the live bot here:
 
 ## 🙏 Special Thanks To
 
-- 🌴 [⌯ Ꭺɴᴏɴʏᴍᴏᴜꜱ | ×͜× |](https://t.me/BeingXAnonymous)
-- 🌴 [⌯ ᴢɪsʜᴀɴ | ×͜× |](https://t.me/IM_JISSHU)
-- 🌴 [⌯ ʙʜᴀʀᴀᴛʜ | ×͜× |](https://t.me/Bharath_boy)
-- 🌴 [Harshal Purohit Edits](https://github.com/HarshalPurohitEdits)
-- 🌴 [Support Group](https://t.me/Deendayal_Support_Group)
+- 🌴 [⌯ 𝗖𝗼𝗻𝘁𝗮𝗰𝘁 𝗠𝗲 | ×͜× |](t.me/dvittalbotz?direct)
+- 🌴 [⌯ 𝗨𝗽𝗱𝗮𝘁𝗲 𝗠𝗼𝗿𝗲 𝗕𝗼𝘁𝘀 | ×͜× |](https://t.me/DVITTALBOTZ)
+- 🌴 [⌯ 𝗗𝗶𝘀𝗰𝘂𝘀𝘀 𝗖𝗵𝗮𝗻𝗻𝗲𝗹 | ×͜× |](https://t.me/DVITTALBOTZ_Disscussion)
+- 🌴 [ՏᑌᑭᑭOᖇT ᘜᖇOᑌᑭ](https://t.me/DVITTALBOTZ_Disscussion)
 
 ---
 
@@ -49,7 +48,7 @@ Try the live bot here:
 
 Join our support group for assistance:
 
-[![Join Support Group](https://img.shields.io/badge/Join%20Support%20Group-Click%20Here-blue?style=flat&logo=telegram&labelColor=white)](https://t.me/Deendayal_Support_Group)
+[![Join Support Group](https://img.shields.io/badge/Join%20Support%20Group-Click%20Here-blue?style=flat&logo=telegram&labelColor=white)](https://t.me/DVITTALBOTZ_Disscussion)
 
 ---
 
@@ -92,7 +91,7 @@ Join our support group for assistance:
 - ✅ Auto Delete Old Files  
 - ✅ …and more!
 
-📌 *To stay updated with all new features, join our [Updates Channel](https://t.me/dreamxbotz).*
+📌 *To stay updated with all new features, join our [Updates Channel](https://t.me/DVITTALBOTZ).*
 
 ---
 
