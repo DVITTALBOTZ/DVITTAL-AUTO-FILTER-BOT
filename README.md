@@ -10,6 +10,9 @@
 
 ## 👤 Owner
 
+
+[![Contact Developer](https://img.shields.io/static/v1?label=Contact+Owner+Developer&message=On+Telegram&color=critical)]([https://t.me/DVITTALBOTZ_Disscussion](http://t.me/dvittalbotz?direct))
+
 [![Contact Developer](https://img.shields.io/static/v1?label=Contact+Developer&message=On+Telegram&color=critical)](https://t.me/DVITTALBOTZ_Disscussion)
 
 ---
@@ -142,4 +145,4 @@ This project is licensed under the [DVITTAL AUTO FILTER BOT MIT License](https:/
 
 ---
 
-<p align="center"><b>Jai Shree Krishna 🙏😉</b></p>
+<p align="center"><b>🍿 I Love Movie 🍿 </b></p>
